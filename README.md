@@ -1,2 +1,2 @@
 # adriaan1313.github.io
-Hello please go to adriaan1313.github.io/index.html
+Hello please go to adriaan1313.github.io
