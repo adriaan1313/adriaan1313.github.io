@@ -1,0 +1,39 @@
+<!DOCTYPE html />
+<html lang="en-UK">
+	<head>
+		<title>c³ </title>
+		<link href="styles/main.css" rel="stylesheet">
+	</head>
+	<body>
+		<!--<p>☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲ </p>-->
+		<canvas>Get a better browser!</canvas>
+		<script type="text/javascript">
+			let canvas = document.getElementsByTagName("canvas")[0];
+			canvas.width = 1;
+			canvas.height = 1;
+			let ctx = canvas.getContext("2d");
+			canvas.style.width = "100%";
+			canvas.style.height = "100%";
+			setInterval(draw, 0);
+			let R = parseInt(Math.random() * (255 - 0) + 0);
+			let G = parseInt(Math.random() * (255 - 0) + 0);
+			let B = parseInt(Math.random() * (255 - 0) + 0);
+			let cR = R;
+			let cG = G;
+			let cB = B;
+			function draw() {
+				if(cR == R){R = parseInt(Math.random() * (255 - 0) + 0);}
+				if(cG == G){G = parseInt(Math.random() * (255 - 0) + 0);}
+				if(cB == B){B = parseInt(Math.random() * (255 - 0) + 0);}
+				if(cR > R){cR--;}
+				if(cG > G){cG--;}
+				if(cB > B){cB--;}
+				if(cR < R){cR++;}
+				if(cG < G){cG++;}
+				if(cB < B){cB++;}
+				ctx.fillStyle = "rgb(" + cR + ", " + cG + ", " + cB + ")";
+				ctx.fillRect(0,0,1,1);
+			}
+		</script>
+	</body>
+</html>
