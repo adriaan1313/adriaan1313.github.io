@@ -1,2 +1,2 @@
-adriaan1313.github.io/Projects/DTMF/
-adriaan1313.github.io/Projects/c³/
+Projects/DTMF/
+Projects/c³/
