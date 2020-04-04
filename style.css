@@ -112,10 +112,3 @@ h2 {
 #content p {
 	color:#456789;
 }
-
-::selection {
-  	background: orange;
-}
-::-moz-selection {
-  	background: orange;
-}
