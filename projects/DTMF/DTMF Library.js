@@ -34,7 +34,7 @@ class DTMF {
         this.context = undefined;
       } else throw this.error[1];
     };
-    /*this.greenBox = async function(action, wink){
+    this.greenBox = async function(action, wink){
       if(action !== undefined && wink !== undefined){
         if(typeof(this.context) !== "object"){
           await this.start(action[0], action[1]);
@@ -46,7 +46,7 @@ class DTMF {
           await this.sleep(60);
         }else throw this.error[0];
       }else throw this.error[2];
-    }*/
+    }
   }
 
 }
