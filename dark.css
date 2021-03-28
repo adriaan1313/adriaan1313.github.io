@@ -92,6 +92,10 @@ h2 {
 	display:block;
 }
 
+#menu ul > li > ul > li:hover > ul {
+	display:inline-block;
+}
+
 #menu > ul {
 	padding:0px;
 	margin:0px auto 0px;

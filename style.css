@@ -84,6 +84,10 @@ h2 {
 	display:block;
 }
 
+#menu ul > li > ul > li:hover > ul {
+	display:inline-block;
+}
+
 #menu ul > li:hover > ul {
 	display:block;
 }
