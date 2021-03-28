@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Allow: /projects/DTMF
+Allow: /projects/game-idk
 Disallow: /projects/
