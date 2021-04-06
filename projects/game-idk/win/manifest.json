@@ -1,0 +1,16 @@
+{
+  "name": "Triangular Solitare",
+  "short_name": "TriSo",
+  "start_url": "./index.html",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "images/icn.png",
+      "sizes": "364x464",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#240300",
+  "background_color": "#fdbc08",
+  "display": "standalone"
+}
