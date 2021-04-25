@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html>
+<head><title>SNGtoCSV</title></head>
+<body>
+<textarea id="file" name="file">
+{
+	"channels":[
+		{
+			"volume":1.9952623149688795,
+			"volumeAutomation":[
+				
+			],
+			"type":"instrument",
+			"pan":0.5,
+			"instrument":{
+				"osc_1_vol":{
+					"value":0.5749999999999992,
+					"automation":[
+						
+					]
+				},
+				"osc_0_pitch":{
+					"value":0.5,
+					"automation":[
+						
+					]
+				},
+				"filter_int":{
+					"value":0.7450000000000002,
+					"automation":[
+						
+					]
+				},
+				"filter_decay":{
+					"value":0.10000000149011586,
+					"automation":[
+						
+					]
+				},
+				"osc_3_pitch":{
+					"value":0.25,
+					"automation":[
+						
+					]
+				},
+				"osc_1_type":{
+					"value":1,
+					"automation":[
+						
+					]
+				},
+				"osc_1_detune":{
+					"value":0.44847334190773314,
+					"automation":[
+						
+					]
+				},
+				"osc_0_detune":{
+					"value":0.5,
+					"automation":[
+						
+					]
+				},
+				"osc_3_vol":{
+					"value":1,
+					"automation":[
+						
+					]
+				},
+				"noise_color":{
+					"value":1,
+					"automation":[
+						
+					]
+				},
+				"osc_2_pitch":{
+					"value":0.5,
+					"automation":[
+						
+					]
+				},
+				"filter_attack":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"noise_vol":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"identifier":"com.soundation.simple",
+				"osc_2_type":{
+					"value":2,
+					"automation":[
+						
+					]
+				},
+				"osc_0_vol":{
+					"value":1,
+					"automation":[
+						
+					]
+				},
+				"filter_cutoff":{
+					"value":0.14500000000000002,
+					"automation":[
+						
+					]
+				},
+				"filter_sustain":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"filter_resonance":{
+					"value":0.45,
+					"automation":[
+						
+					]
+				},
+				"decay":{
+					"value":0.14000000149011602,
+					"automation":[
+						
+					]
+				},
+				"osc_3_detune":{
+					"value":0.5,
+					"automation":[
+						
+					]
+				},
+				"filter_release":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"osc_2_detune":{
+					"value":0.5,
+					"automation":[
+						
+					]
+				},
+				"release":{
+					"value":0.13499999999999995,
+					"automation":[
+						
+					]
+				},
+				"osc_3_type":{
+					"value":3,
+					"automation":[
+						
+					]
+				},
+				"osc_2_vol":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"osc_0_type":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"sustain":{
+					"value":0.5850000000000002,
+					"automation":[
+						
+					]
+				},
+				"attack":{
+					"value":0,
+					"automation":[
+						
+					]
+				},
+				"osc_1_pitch":{
+					"value":0.75,
+					"automation":[
+						
+					]
+				}
+			},
+			"solo":false,
+			"name":"Instr. 1",
+			"panAutomation":[
+				
+			],
+			"effects":[
+				
+			],
+			"mute":false,
+			"regions":[
+				{
+					"notes":[
+						{
+							"position":0,
+							"velocity":0,
+							"length":5292,
+							"note":36
+						},
+						{
+							"position":21168,
+							"velocity":1,
+							"length":5292,
+							"note":36
+						}
+					],
+					"position":0,
+					"type":2,
+					"length":84672,
+					"loopcount":1,
+					"color":3298418,
+					"contentPosition":0
+				},
+				{
+					"notes":[
+						{
+							"position":15876,
+							"velocity":0.75,
+							"length":5292,
+							"note":39
+						},
+						{
+							"position":52920,
+							"velocity":0.75,
+							"length":5292,
+							"note":56
+						}
+					],
+					"position":211680,
+					"type":2,
+					"length":84672,
+					"loopcount":1,
+					"color":3298418,
+					"contentPosition":0
+				}
+			]
+		},
+		{
+			"volume":0,
+			"volumeAutomation":[
+				
+			],
+			"type":"audio",
+			"pan":0.5,
+			"solo":false,
+			"name":"Audio Channel 1",
+			"panAutomation":[
+				
+			],
+			"effects":[
+				
+			],
+			"mute":false,
+			"regions":[
+				
+			]
+		},
+		{
+			"volume":1,
+			"volumeAutomation":[
+				
+			],
+			"type":"master",
+			"pan":0.5,
+			"solo":false,
+			"name":"Master Channel",
+			"panAutomation":[
+				
+			],
+			"effects":[
+				
+			],
+			"mute":false,
+			"regions":[
+				
+			]
+		}
+	],
+	"looping":false,
+	"version":2,
+	"loopStart":84672,
+	"loopEnd":169344,
+	"bpm":125
+}
+</textarea><br>
+<button onClick="go();">convert</button><br>
+<textarea name="csv" id="csv" placeholder="output goes here" readonly></textarea>
+<script>
+function go(){
+	let file= JSON.parse(document.getElementById("file").value);
+	let outstr= "0, 0, Header, 1, 1, 21168\n";
+	file.channels = file.channels.filter(channel => channel.type=="instrument"&&channel.regions.length != 0);
+	for(let i = 0; i < file.channels.length; i++){
+		file.channels[i].regions.sort(compare);
+		outstr+=`${i+1}, 0, Start_track\n${i+1}, 0, Tempo, ${60000000/file.bpm}\n${i+1}, 0, Program_c, 0, 0\n${i+1}, 0, Control_c, 0, 7, ${Math.round(file.channels[i].volume/2*127)}\n${i+1}, 0, Control_c, 0, 10, ${Math.round(file.channels[i].pan*127)}\n${i+1}, 0, Title_t, ${file.channels[i].name}\n${i+1}, 0, Instrument_name_t, ${file.channels[i].instrument.identifier}\n`;
+		//future stuff, i don't know about 
+		/*if(file.channels[i].instrument.resonance) outstr+=`${i+1}, 0, Control_c, 0, 71, ${Math.round(file.channels[i].instrument.resonance.value*127)}\n`;
+		else if(file.channels[i].instrument.filter_resonance) outstr+=`${i+1}, 0, Control_c, 0, 71, ${Math.round(file.channels[i].instrument.filter_resonance.value*127)}\n`;
+		if(file.channels[i].instrument.release) outstr+=`${i+1}, 0, Control_c, 0, 72, ${Math.round(file.channels[i].instrument.release.value*127)}\n`;
+		if(file.channels[i].instrument.attack) outstr+=`${i+1}, 0, Control_c, 0, 73, ${Math.round(file.channels[i].instrument.attack.value*127)}\n`;
+		if(file.channels[i].instrument.cutoff) outstr+=`${i+1}, 0, Control_c, 0, 74, ${Math.round(file.channels[i].instrument.cutoff.value*127)}\n`;
+		else if(file.channels[i].instrument.filter_cutoff) outstr+=`${i+1}, 0, Control_c, 0, 74, ${Math.round(file.channels[i].instrument.filter_cutoff.value*127)}\n`;
+		if(file.channels[i].instrument.detune) outstr+=`${i+1}, 0, Control_c, 0, 94, ${Math.round(file.channels[i].instrument.detune.value*127)}\n`;*/
+		//The numbers, what do they mean?
+		let events = [];
+		for(let j = 0; j < file.channels[i].regions.length; j++){
+			file.channels[i].regions[j].notes.sort(compare);
+			for(let k = 0; k < file.channels[i].regions[j].notes.length; k++){
+				events.push(`${i+1}, ${file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position}, Note_on_c, 0, ${file.channels[i].regions[j].notes[k].note+12}, ${file.channels[i].regions[j].notes[k].velocity*127}\n`);
+				events.push(`${i+1}, ${file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length}, Note_off_c, 0, ${file.channels[i].regions[j].notes[k].note+12}, 0\n`);
+			}
+		}
+		events.sort(compareE);
+		events.forEach(e => outstr += e);
+		
+		outstr+=`${i+1}, ${file.channels[i].regions[file.channels[i].regions.length-1].position+file.channels[i].regions[file.channels[i].regions.length-1].length}, End_track\n`;
+		//outstr+=`${i+1}, ${file.channels[i].regions[file.channels[i].regions.length-1].position+file.channels[i].regions[file.channels[i].regions.length-1].length}, End_track\n`;
+	}
+	outstr+="0, 0, End_of_file\n";
+	csv.value=outstr;
+}
+function compareE(a, b) {
+  console.log(a.split(', ')[1].split(', note')[0],b.split(', ')[1].split(', note')[0]);
+  if ((a.split(', ')[1].split(', note')[0])*1 < (b.split(', ')[1].split(', note')[0])*1)return -1;
+  if ((a.split(', ')[1].split(', note')[0])*1 > (b.split(', ')[1].split(', note')[0])*1)return 1;
+  else return 0;
+}
+function compare(a, b) {
+  if (a.position < b.position)return -1;
+  if (a.position > b.position)return 1;
+  else return 0;
+}
+
+</script>
+</body>
+</html>
