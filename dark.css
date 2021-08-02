@@ -50,9 +50,12 @@ h2 {
 	background:#000057;
 	width:16.3265306122%;
 	float:left;
-  color:#c8dff4;
+	color:#c8dff4;
 }
-
+#links img {
+	filter: invert(90%);
+	opacity: .8;
+}
 #menu li {
 	background: #666666;
 	color: #000000;
