@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Omroep Zeeland getter (c)</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.omroepzeeland.nl/nieuws/129784/Feest-in-het-buitenzwembad-van-Arnemuiden-na-vijf-jaar-weer-zwemdiploma-s" value="https://www.omroepzeeland.nl/nieuws/129784/Feest-in-het-buitenzwembad-van-Arnemuiden-na-vijf-jaar-weer-zwemdiploma-s"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		let o = document.getElementById("o");
+		$.get(pub, data=>{
+		id=data.split("iframe src=\"/media/player/")[1].split("\"")[0];
+			$.get("https://www.omroepzeeland.nl/media/player/"+id, d=>{
+				$.getJSON(`https://www.omroepzeeland.nl/media/bluebillywigplayeroptions/media/${d.split("media/bluebillywigplayeroptions/media/").pop().split(".json")[0]}.json`, da =>{
+					for(i=0; i<da.clipData.assets.length; i++){
+						if(da.clipData.assets[i].src.indexOf("regiogrid")!=-1){
+							$.get("https://omroepzeeland.bbvms.com/"+da.clipData.assets[i].src.split(".html")[0]+".js", dat=>{
+								dat = JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]);
+								for(j=0; j<dat.clipData.assets.length; j++){
+									let tmp=document.createElement("video");
+									tmp.controls="on";
+									let srt=document.createElement("source");
+									srt.src=dat.publicationData.defaultMediaAssetPath+dat.clipData.assets[j].src;
+									let tmpp=document.createElement("p");
+									tmpp.innerHTML=dat.clipData.assets[j].jobqid||dat.clipData.assets[j].jobqid||(dat.clipData.assets[j].mediatype.toLowerCase()+"-"+dat.clipData.assets[j].width+"x"+dat.clipData.assets[j].height+"-"+dat.clipData.assets[j].bandwidth)+":";
+									o.appendChild(tmpp);
+									tmp.appendChild(srt);
+									o.appendChild(tmp);
+									console.log(srt.src);
+								}
+							});
+						}else {
+							let tmp=document.createElement("video");
+							tmp.controls="on";
+							let srt=document.createElement("source");
+							srt.src=da.protocol.split("//")[0]+da.publicationData.baseurl+da.clipData.assets[i].src;
+							let tmpp=document.createElement("p");
+							tmpp.innerHTML=da.clipData.assets[i].jobqid||da.clipData.assets[i].jobqid||(da.clipData.assets[i].mediatype.toLowerCase()+"-"+da.clipData.assets[i].width+"x"+da.clipData.assets[i].height+"-"+da.clipData.assets[i].bandwidth)+":";
+							o.appendChild(tmpp);
+							tmp.appendChild(srt);
+							o.appendChild(tmp);
+							console.log(srt.src);
+						}
+					}
+				});
+			});
+		});
+	}
+    </script>
+  </body>
+</html>
+

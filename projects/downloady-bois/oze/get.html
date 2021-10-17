@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Omroep Zeeland getter (a)</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.omroepzeeland.nl/tv/programma/370059799/De-Zeeuwse-Top-40/aflevering/370070758/Top-40-Clips-28-september-2010" value="https://www.omroepzeeland.nl/tv/programma/370059799/De-Zeeuwse-Top-40/aflevering/370070758/Top-40-Clips-28-september-2010"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.get(pub, d=>{
+			if(d.indexOf("/p/regiogrid/")!=-1){
+				playerScript("https://omroepzeeland.bbvms.com/p/regiogrid"+d.split("/p/regiogrid")[1].split(".")[0]+".js");
+			}else if(d.indexOf("media/bluebillywigplayeroptions")!=-1){
+			$.getJSON(`https://www.omroepzeeland.nl/media/bluebillywigplayeroptions/${d.split("media/bluebillywigplayeroptions/").pop().split(".json")[0]}.json`, da =>{
+				for(i=0; i<da.clipData.assets.length; i++){
+					if(da.clipData.assets[i].src.indexOf("regiogrid")!=-1){
+						playerScript("https://omroepzeeland.bbvms.com/"+da.clipData.assets[i].src.split(".html")[0]+".js");
+					}else if(da.clipData.assets.length==1){
+						addVid(`https://omroepzeeland.bbvms.com/custom/getDownload?sourceid=${da.embedData.contentId}`, da.clipData.assets[0].jobqid||da.clipData.assets[0].jobqid||(da.clipData.assets[0].mediatype.toLowerCase()+"-"+da.clipData.assets[0].width+"x"+da.clipData.assets[0].height+"-"+da.clipData.assets[0].bandwidth));
+					}else{
+						addVid(da.publicationData.defaultMediaAssetPath+da.clipData.assets[i].src, da.clipData.assets[i].jobqid||da.clipData.assets[i].jobqid||(da.clipData.assets[i].mediatype.toLowerCase()+"-"+da.clipData.assets[i].width+"x"+da.clipData.assets[i].height+"-"+da.clipData.assets[i].bandwidth));
+					}
+				}
+			});}
+		})
+	}
+	function playerScript(url){
+		$.get(url, dat=>{
+			dat = JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]);
+			for(j=0; j<dat.clipData.assets.length; j++){
+				addVid(dat.publicationData.defaultMediaAssetPath+dat.clipData.assets[j].src, dat.clipData.assets[j].jobqid||dat.clipData.assets[j].jobqid||(dat.clipData.assets[j].mediatype.toLowerCase()+"-"+dat.clipData.assets[j].width+"x"+dat.clipData.assets[j].height+"-"+dat.clipData.assets[j].bandwidth));
+			}
+		});
+	}
+	function addVid(url, q){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=q+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+

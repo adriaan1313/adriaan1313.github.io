@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Publitas lister</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	publisher: <input type=text id=pub placeholder=malmberg>slug: <input type=text id=slug placeholder=antwoordenboek-groep-6-7-8-land-van-zeek> <select id=s><option value="-original.jpg">original</option><option value="-at200.jpg">200</option><option value="-at600.jpg">600</option><option value="-at800.jpg">800</option><option value="-at1000.jpg">1000</option><option value="-at1200.jpg">1200</option><option value="-at1600.jpg">1600</option></select> <button onclick="getThem();">Get Publications</button><br>
+	<div id=o></div>
+    <script>
+      console.log();
+	  function getThem(){
+		let pub=document.getElementById("pub");
+		let slug=document.getElementById("slug");
+		$.getJSON("https://api.publitas.com/v1/groups/"+pub.value.toLowerCase()+"/publications/"+slug.value.toLowerCase()+".json", data);
+	  }
+	  function data(data){
+		let o = document.getElementById("o");
+		o.innerHTML="";
+		const s = document.getElementById("s").value;
+		console.log(data);
+		for(let i=0;i<data.spreads.length;i++){
+			for(let j=0;j<data.spreads[i].pages.length;j++){
+				let tmp=document.createElement(`img`);
+				tmp.src="https://view.publitas.com"+data.spreads[i].pages[j]+s;
+				o.appendChild(tmp);
+			}
+			o.appendChild(document.createElement(`br`));
+		}
+		
+	  }
+    </script>
+  </body>
+</html>
+

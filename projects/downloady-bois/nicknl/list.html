@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+	<style>
+		.pub {
+			border: 1px solid gray;
+			border-radius: 5px;
+			width: 123px;
+			display: inline-block;
+			text-decoration: none;
+			color: black;
+			padding-top: 100%
+			height: 1em;
+			position:relative;
+			vertical-align: middle;
+		}
+		.pub img {
+			width: 100%;
+		}
+		.pub p {
+			max-width: 100%;
+			padding: 0px;
+			margin: 0px;
+			overflow-wrap: break-word;
+			text-align: center;
+		}
+		.date {
+			font-size: 9pt;
+		}
+	</style>
+    <title>Nick(nl) lister</title>
+  </head>
+  <body>
+	<button onclick="getThemButton();">Get Results</button><br>
+	<div id=o></div>
+    <script>
+	  function sleep(ms) {
+	  	return new Promise(resolve => setTimeout(resolve, ms));
+      }
+	  
+	  function getThem(){
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.nickelodeon.nl/api/more/contentfeed/homepage/2/11/https%3A%2F%2Fneutron-api.viacom.tech%2Fapi%2F2.8%2Fcontent-collection%3Ftypes%3Depisode%26pageNumber%3D1%26pageSize%3D40%26orderBy%3DoriginalPublishDate%26order%3Ddescending%26region%3DNL%26brand%3Dnick%26platform%3Dweb%26version%3D4.5"), dat); //40=max
+	  }
+	  function getThemButton(){
+		getThem();
+		document.getElementById("o").innerHTML=""
+	  }
+
+	  async function dat(data){
+		data=JSON.parse(data.contents);
+		data.items.forEach(episode=>{
+		//debugger;
+			let tmp0 = document.createElement(`a`);
+			tmp0.classList.add("pub");
+			tmp0.href = "https://www.nickelodeon.nl" + episode.url;
+			let tmp1 = document.createElement(`p`);
+			tmp1.innerHTML = `${episode.meta.label}\n${episode.meta.header.title}\n${episode.meta.subHeader}`;
+			tmp0.appendChild(tmp1);
+			let a = document.createElement(`img`);
+			if(episode.media)a.src = episode.media.image.url;
+			else a.src=data.defaultImage.url;
+			if(episode.media)a.alt="duration: "+episode.media.duration;
+			tmp0.appendChild(a);
+			let b = document.createElement(`p`);
+			b.innerHTML = episode.meta.date||"";
+			b.classList.add("date");
+			tmp0.appendChild(b);
+			o.appendChild(tmp0);
+		});
+		if(data.loadMore && data.loadMore.url) $.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.nickelodeon.nl"+data.loadMore.url), dat);
+	  }
+	$(document).ajaxError((e,req,s,tE)=>{
+		if(s.url.indexOf("content-collection?types=episode")!=-1) $.getJSON(s.url, dat);
+		console.log(tE);
+	});
+    </script>
+  </body>
+</html>

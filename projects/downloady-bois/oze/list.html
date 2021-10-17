@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+	<style>
+		.pub {
+			border: 1px solid gray;
+			border-radius: 5px;
+			width: 123px;
+			display: inline-block;
+			text-decoration: none;
+			color: black;
+			padding-top: 100%
+			height: 1em;
+			position:relative;
+			vertical-align: middle;
+		}
+		.pub img {
+			width: 100%;
+		}
+		.pub p {
+			max-width: 100%;
+			padding: 0px;
+			margin: 0px;
+			overflow-wrap: break-word;
+			text-align: center;
+		}
+		.date {
+			font-size: 9pt;
+		}
+	</style>
+    <title>Omroep Zeeland lister (a)</title>
+  </head>
+  <body>
+	<select name=medium id=medium><option value="Tv">Tv</option><option value="Radio">Radio</option></select><select name=category id=category><option value="">Everything</option></select><button onclick="getThemButton();">Get Results</button><br>
+	<div id=o></div>
+    <script>
+	  function sleep(ms) {
+	  	return new Promise(resolve => setTimeout(resolve, ms));
+      }
+	  const ughs = new URL(window.location.href);
+	  const programmesTv = [{"seriesId":"55f87ae6-f215-4033-bbde-daf4bc45ea1a","title":"65 jaar watersnoodramp","selected":false},{"seriesId":"472a5575-55e1-4052-a732-ed2b1d226861","title":"75 jaar vrijheid","selected":false},{"seriesId":"a19739b7-3aa0-4219-89b5-9642c31ac7ab","title":"75 jaar vrijheid - een overdenking","selected":false},{"seriesId":"925c7398-d3a0-486a-b187-7890067f0f80","title":"A trip to Bombay","selected":false},{"seriesId":"0e7cfe4b-2785-435d-9739-1417d5a324ea","title":"Aan Zee","selected":false},{"seriesId":"a48f6ca9-fe48-437b-9219-c2f631081381","title":"Achter de stilte","selected":false},{"seriesId":"27f938cc-bea6-416c-9348-3ed561330f01","title":"Bevrijdingsfestival Zeeland @home","selected":false},{"seriesId":"f9cd4933-6d79-420e-ba2e-06de07d54861","title":"BinnensteBuiten","selected":false},{"seriesId":"27474561-db65-43d1-b371-80b86339c9fe","title":"Boven Water","selected":false},{"seriesId":"c7385663-ee55-43fd-b3c1-7d40c4ec30bf","title":"Brico Cross","selected":false},{"seriesId":"5373f44a-5c9b-44b1-bf76-f21e28d6b37f","title":"Code Groen","selected":false},{"seriesId":"75de956b-f967-49e4-9d28-7703595b3d4d","title":"Collega's","selected":false},{"seriesId":"7c0b9eba-05af-4f7d-9fce-a3b7fa167c52","title":"Commando Vlissingen","selected":false},{"seriesId":"4b02b5db-1ec3-4259-a50b-7a9fe46b5f18","title":"Commandos Strike at Walcheren","selected":false},{"seriesId":"9434cdf1-a4ac-49f9-be67-1964b87613c9","title":"Contacta Journaal","selected":false},{"seriesId":"795e1920-5dad-48f6-b71e-663f97065198","title":"Danny Vera in concert","selected":false},{"seriesId":"0758c36c-7659-41c6-8df1-1dc53f00aa45","title":"De Canon van Zeeland","selected":false},{"seriesId":"854d2e24-a65a-456a-88fd-8ee820525d7b","title":"De Derde Helft","selected":false},{"seriesId":"cc2ab4b3-25a6-4c51-a8d6-685f1733e4a0","title":"De getuigen van 1953","selected":false},{"seriesId":"a1e3599b-2de6-4702-a48e-399aaa86146f","title":"De Laatste Getuigen (serie)","selected":false},{"seriesId":"b37620bf-3ade-40bc-a296-67f3bd4aa2a0","title":"De Lage Landenlijst","selected":false},{"seriesId":"15405726-2e4c-4a50-b9d6-0e018ac0232d","title":"De Passie van Peijs","selected":false},{"seriesId":"c454c812-7b1b-4699-96d3-8d355f697bde","title":"De Slag om de Schelde","selected":false},{"seriesId":"80e1afad-7a84-4e60-b409-4853a7e02298","title":"De Slag om de Schelde (serie)","selected":false},{"seriesId":"3d66a272-7832-4899-aff8-86c22e3f9251","title":"De Stembus","selected":false},{"seriesId":"217de190-3dd8-48b9-963a-fe29fdd8aec3","title":"De Stoel","selected":false},{"seriesId":"e6666cca-5ef0-4de9-b921-8dc3e8b74da9","title":"De Vergeten Slag","selected":false},{"seriesId":"dc226be0-c9e4-4e2d-a7d8-6bf5438179e8","title":"De Zeelandbrug","selected":false},{"seriesId":"d08f69b7-cdf0-4499-a57a-bfb2b01a85e6","title":"De Zeeuwse Top 40","selected":false},{"seriesId":"97fe1453-b67f-4d95-87f1-b2f7653de61e","title":"De Zeeuwse Top 40 (Koningsdag special)","selected":false},{"seriesId":"78202dad-f721-4a28-938c-c4d3b040eee9","title":"Door zee","selected":false},{"seriesId":"2123891a-9f42-494d-8aa6-61dffb45ecef","title":"Eindejaarsshow","selected":false},{"seriesId":"ff7a896d-9632-4fd8-bced-e48b5b2fa4e2","title":"Ereveld vol leven","selected":false},{"seriesId":"9745a2e4-981b-4073-b2e5-fc110d3e5bec","title":"Evenement van de week","selected":false},{"seriesId":"b05148a7-7f2d-4713-bfb5-00a313e20be0","title":"Film by the Sea","selected":false},{"seriesId":"1d8c467e-f4e5-4852-b529-0410b2cec722","title":"Geloof in Zeeland","selected":false},{"seriesId":"a15ebea8-bbd5-4ba7-885e-78ec68411efc","title":"Gelukkig in Zeeland","selected":false},{"seriesId":"8d2bdbf5-efeb-4a9e-a8fa-fa17d7c5d646","title":"Groen Bezig!","selected":false},{"seriesId":"860ab2be-20df-4db7-8918-32e416ce833c","title":"Ik help vandaag","selected":false},{"seriesId":"59de96fb-49c9-4511-9a60-76b5c7e7d167","title":"In Beweging","selected":false},{"seriesId":"38342010-eedc-456b-bbc3-a427fd177e4d","title":"In vrijheid","selected":false},{"seriesId":"599022ef-df9f-4add-bc91-fafcd9887b55","title":"Johan Derksen en de Pioniers van de Nederpop","selected":false},{"seriesId":"3967b30e-98b7-495f-a85b-1b6543a4d7e1","title":"Kijk op Zeeland","selected":false},{"seriesId":"3d2ca924-9b8b-41c4-b502-f1ed921b47fe","title":"Kijken in de keuken","selected":false},{"seriesId":"8455fb9c-9a8c-4cc5-ae73-0b6a25f09079","title":"Kustmarathon 2017","selected":false},{"seriesId":"1d46912d-dcfa-4ef6-bdb0-453ed2ac3a13","title":"Kustmarathon 2018","selected":false},{"seriesId":"bcff3fab-a730-4027-907f-dd20ed72d242","title":"Kustmarathon 2019","selected":false},{"seriesId":"f063c5fa-cd89-4811-bbb0-dfe3f97e53de","title":"Lees het Landschap","selected":false},{"seriesId":"3a2f0f74-dd5f-43b5-aca8-e00b409ac60e","title":"Lessen in Verlies","selected":false},{"seriesId":"e00b15bb-16b8-47f0-9a10-95497f70d30f","title":"Leven met verlies en verdriet","selected":false},{"seriesId":"abf3bdfe-1fd9-48c1-b4fa-bc5d7912157a","title":"Mantel der Liefde","selected":false},{"seriesId":"5e55430e-7bee-4a14-a7ec-ace5545d20c2","title":"Marathon Zeeuws-Vlaanderen","selected":false},{"seriesId":"214c135e-c43e-4ca4-949a-593cc76a5d52","title":"Muis en Leeuw","selected":false},{"seriesId":"f41bcb85-d614-479a-a336-94a729f50cd6","title":"MuseumTV","selected":false},{"seriesId":"7e46b5c8-aef6-46e5-aeaa-d5b8d2c43404","title":"Natuurlijk!","selected":false},{"seriesId":"4df4e70f-96f9-46a9-ad94-db9153952a8c","title":"Nieuwe Zeeuwen","selected":false},{"seriesId":"fa44b468-59c0-453c-96e1-5196b0213261","title":"NOS Journaal Regio","selected":false},{"seriesId":"b766feb5-9146-4ed0-909f-a0ad99e1d27c","title":"Oemoemenoe","selected":false},{"seriesId":"19d545ed-7ca2-4af2-a1e0-43b0bfd3a1e7","title":"Omroep Zeeland Sport","selected":false},{"seriesId":"117bdbaf-1f04-4dce-8d83-0a0f9143b2a5","title":"Onderweg","selected":false},{"seriesId":"80391ee0-15c3-4dc5-8ad1-5dc11a1897a0","title":"Onze Club","selected":false},{"seriesId":"a2c6ad63-f4f4-4676-b552-533635867b14","title":"Op Jacht","selected":false},{"seriesId":"e1e48bb6-c942-4cec-92a4-3b0ed2c1ab4f","title":"Op mijn stoep","selected":false},{"seriesId":"15269294-f79b-4b0a-8720-e146c702dffd","title":"Op stap in Zeeland","selected":false},{"seriesId":"e21f3a2a-8c8b-42cb-b2ae-a50000349d17","title":"Opgeven? Amme nooit nie","selected":false},{"seriesId":"25b1d902-4747-4096-85c1-decb8c9b5b5c","title":"Over Leven","selected":false},{"seriesId":"832bd510-d489-43ab-9f9e-263703c0c100","title":"OverNieuw","selected":false},{"seriesId":"d32486fe-4915-4b46-886f-20c48c3f16b6","title":"PEER in de Oostkerk","selected":false},{"seriesId":"66dafa9b-534f-4fd5-89c3-b0fb4447168f","title":"RegioNED","selected":false},{"seriesId":"8243fa9f-07d1-4b8f-b768-fa594271450b","title":"Rescue Vlissingen","selected":false},{"seriesId":"5be4b683-5ae0-450f-aeb2-75c549b61f61","title":"Roestige Reus geeft zich gewonnen","selected":false},{"seriesId":"30e38e86-2341-45f0-b828-ac7622dec47a","title":"Rutte in Zeeland","selected":false},{"seriesId":"0b9ff612-969d-4aeb-b3ee-335b700d6d61","title":"Spring maar achterop","selected":false},{"seriesId":"5dfe0f85-302b-4787-b3f4-4f1e2d034375","title":"Steengoed","selected":false},{"seriesId":"349d16cf-ebb1-4cdd-9011-bad38c8d4bfe","title":"Tacx Pro Classic","selected":false},{"seriesId":"15c9e49f-ec01-4634-8772-de553fa7c383","title":"The Christmas Show 2020","selected":false},{"seriesId":"d1533066-1509-403b-925b-e52defc8e85a","title":"This is it, 35 jaar blues van Zeeuwse bodem","selected":false},{"seriesId":"93b5bebd-c575-4144-a15f-ed9b8ef64c15","title":"Thuis in Zeeland","selected":false},{"seriesId":"089ca6af-592b-462b-93d9-2060b4fa2366","title":"Toen wij uit Zeeland vertrokken","selected":false},{"seriesId":"0a1a4b36-cac1-4fd4-b246-68e417007920","title":"Trots op Zeeland","selected":false},{"seriesId":"1d3baa2a-62ea-4582-90fb-0b15535849b8","title":"Trugkieke","selected":false},{"seriesId":"f20658bb-23fb-4868-afbe-ed3b204531ae","title":"Uit in Zeeland","selected":false},{"seriesId":"b6601206-ba33-41f4-8d7c-facfb6fe12b4","title":"Van Randwijklezing","selected":false},{"seriesId":"30752949-f565-4934-afef-628caefa775c","title":"Van Zee","selected":false},{"seriesId":"41f24d15-4e83-460e-9021-08e95b1810d0","title":"Verborgen, niet vergeten","selected":false},{"seriesId":"53d11a82-5b50-40bc-9b9c-7147c9799a88","title":"Verrast","selected":false},{"seriesId":"d7c54514-835c-4ab5-a13a-ea7f8bf06605","title":"Verzeeuwigd","selected":false},{"seriesId":"e65c1fbb-0c7e-484d-bf22-118c74f7ce1b","title":"Vestrock","selected":false},{"seriesId":"bc9cfcda-2e9d-4efb-93be-ef36810a55be","title":"Vestrock 2018","selected":false},{"seriesId":"74623a13-ebf8-4751-b0e0-2a0dcab15cea","title":"Waar gebeurd","selected":false},{"seriesId":"441f75a5-7de7-4eb8-acc5-c5b6474e80d4","title":"Was Getekend","selected":false},{"seriesId":"0d6e1a69-f9e2-478f-8ffe-136dd4f9f9fe","title":"Weg van Water","selected":false},{"seriesId":"c77a861a-0b34-4dbc-a284-868c7b27b429","title":"Wij zijn Zeeland","selected":false},{"seriesId":"057b4557-9f46-4b04-97ee-f526f42c7af5","title":"YESC","selected":false},{"seriesId":"06d8056b-097c-44f1-99af-906a952eece9","title":"Zeeland 100% verkeersveilig","selected":false},{"seriesId":"58b4e5f9-d70c-45e9-bfb2-fe6d01aac9b2","title":"Zeeland de Week","selected":false},{"seriesId":"bcf1138d-8651-4d0a-b32b-890e49bbd172","title":"Zeeland Kiest","selected":false},{"seriesId":"521b5132-19b9-4788-b08a-e5d47f0899e1","title":"Zeeland Kiest Lijsttrekkersdebat","selected":false},{"seriesId":"1b1fed0f-ad74-47fb-9450-1b63c010a745","title":"Zeeland Nazomerfestival","selected":false},{"seriesId":"e2d0adc9-dcac-4d65-addf-6864d73159d1","title":"Zeeland Nu","selected":false},{"seriesId":"708f2abb-82f9-4b3f-8207-750933421001","title":"Zeeland tijdens de Eerste Wereldoorlog","selected":false},{"seriesId":"ba6cd5dd-d39b-4cd0-9327-49e2878c6d12","title":"Zeeland Veilig","selected":false},{"seriesId":"0ecb6751-4f26-4604-8ed1-fe31965bf734","title":"Zeeuwen Down Under","selected":false},{"seriesId":"fd83e97b-b625-4513-9b50-74de2ed67542","title":"Zeeuwen in the West","selected":false},{"seriesId":"c130862b-c236-4031-9c6c-755bc06ee9c6","title":"Zeeuws Goud","selected":false},{"seriesId":"55d126e0-15eb-4674-9ec6-825e97695a93","title":"Zeeuws meisje","selected":false},{"seriesId":"80a6bfff-1869-40f2-992a-c9ed5946e6db","title":"Zeeuws water","selected":false},{"seriesId":"5ee53bc5-6446-4e32-b5d2-2a4534c36098","title":"Zeeuwse Dokters","selected":false},{"seriesId":"9ac74971-f013-4a2f-a64d-c997c1483014","title":"Zeeuwse Eindejaarsquiz","selected":false},{"seriesId":"b38e4e74-2c80-48c1-8950-a2e2a93bd2a0","title":"Zeeuwse Inkt","selected":false},{"seriesId":"72491f0e-7caf-4e26-905c-ff6b86587ab7","title":"Zeeuwse Vrouwen","selected":false},{"seriesId":"5da3f591-b829-44e3-ad67-c088222f27d1","title":"Zeeuwse Zaken","selected":false},{"seriesId":"8077082e-ec30-4a7a-b8cb-e9001165cf9b","title":"ZLM Tour","selected":false},{"seriesId":"51aeee67-823e-45b7-b80b-681791a72e29","title":"Zwart Verleden","selected":false}]; // https://www.omroepzeeland.nl/tvgemist
+	  const programmesRadio = [{"seriesId":"50d038d3-01f2-4b5f-906a-f23d7c799bf7","title":"Zeeuwse Kamer","selected":false}, {"seriesId":"abdc5038-00ca-49e7-b8fa-937e0d642e8b","title":"Zegt u 't maar","selected":false}];
+	  let med = ughs.searchParams.get("medium");
+	  let cat = ughs.searchParams.get("category");
+	  if(med){getThem();}
+	  let catSel = document.getElementById("category");
+	  tmo = document.createElement("option");
+	  tmo.disabled="true";
+	  tmo.innerHTML="------Tv------";
+	  catSel.appendChild(tmo);
+	  programmesTv.forEach(p=>{
+		tmo = document.createElement("option");
+		tmo.innerHTML=p.title;
+		tmo.value=p.seriesId;
+		catSel.appendChild(tmo);
+	  });
+	  tmo = document.createElement("option");
+	  tmo.disabled="true";
+	  tmo.innerHTML="-----Radio-----";
+	  catSel.appendChild(tmo);
+	  programmesRadio.forEach(p=>{
+		tmo = document.createElement("option");
+		tmo.innerHTML=p.title;
+		tmo.value=p.seriesId;
+		catSel.appendChild(tmo);
+	  });
+	  function getThem(){
+		$.getJSON(`https://www.omroepzeeland.nl/RadioTv/Results?medium=${med}&category=${cat}&page=1`, gotPageOne);
+	  }
+	  function getThemButton(){
+	    med=document.getElementById("medium").value;
+		cat=catSel.value;
+		getThem();
+		document.getElementById("o").innerHTML=""
+	  }
+	  async function gotPageOne(d){
+        const q = $("#query").val();
+        for(let i = 2; i <= Math.min(d.pageCount, 8334); i++){//breaks after page 8334, from/to arguments don't do anything?
+          $.getJSON(`https://www.omroepzeeland.nl/RadioTv/Results?medium=${med}&page=${i}`, data);
+            await sleep(50);
+        }
+		data(d);
+      }
+	  async function data(data){
+		let o = document.getElementById("o");
+		for(let i=0;i<data.searchResults.length;i++){
+			let tmp0 = document.createElement(`a`);
+			tmp0.classList.add("pub");
+			tmp0.href = "https://omroepzeeland.nl" + data.searchResults[i].url;
+			let tmp1 = document.createElement(`p`);
+			tmp1.innerHTML = data.searchResults[i].title.trim();
+			tmp0.appendChild(tmp1);
+			let a = document.createElement(`img`);
+			a.src = data.searchResults[i].photo||"https://www.omroepzeeland.nl/Content/Images/zeeland/logo.png";
+			tmp0.appendChild(a);
+			let b = document.createElement(`p`);
+			b.innerHTML = data.searchResults[i].publicationTimeString.trim()||"";
+			b.classList.add("date");
+			tmp0.appendChild(b);
+			
+			o.appendChild(tmp0);
+		}
+	  }
+	$(document).ajaxError((e,req,s,tE)=>{
+		if(s.url.indexOf("https://www.omroepzeeland.nl/RadioTv/Results?medium=")!=-1) $.getJSON(s.url, data);
+		console.log(tE);
+	});
+    </script>
+  </body>
+</html>

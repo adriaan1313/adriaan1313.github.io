@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Lalela getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.lalela.com/#!details?id=1386274" value="https://www.lalela.com/#!details?id=1386274"><button onclick="getThem();">Get Music</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value.split("id=").pop().split("&")[0];
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.lalela.com/ajax.php?p=track_info&id="+pub), d=>{
+			d=JSON.parse(d.contents);
+			d.content.forEach(dc=>{if(dc.id)addFromd(dc)});
+		});
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.lalela.com/ajax.php?p=track_info&alt="+pub+"&show=250"), d=>{
+			d=JSON.parse(d.contents);
+			d.content.forEach(dc=>{if(dc.id)addFromd(dc)});
+		});
+	}
+	function addFromd(d){
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.lalela.com/ajax.php?p=download_auth&trackId="+d.id), da=>{
+			da=JSON.parse(da.contents);
+			addAud(d.file.playHtml5+"?"+da.content[0].params, d.title);
+		});
+	}
+	function addAud(url, t){
+		let tmp=document.createElement("audio");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+

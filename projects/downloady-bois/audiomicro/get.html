@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Audiomicro getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.audiomicro.com/acoustic-inspirational-loop-02-royalty-free-stock-music-1005509" value="https://www.audiomicro.com/acoustic-inspirational-loop-02-royalty-free-stock-music-1005509"><button onclick="getThem();">Get Music</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.get('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), d=>{
+			if(typeof(d)=="object")d=d.contents;
+			t=d.split('"twitter:description" content="')[1].split('">')[0];
+			c=d.split('"twitter:player:stream:content_type" content="')[1].split('">')[0]
+			else addAud(d.split('"twitter:player:stream" content="')[1].split('">')[0], t, c);
+		});
+	}
+	function addAud(url, t, c){
+		let tmp=document.createElement("audio");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		srt.type=c;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+

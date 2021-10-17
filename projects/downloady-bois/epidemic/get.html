@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Epedemic getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.epidemicsound.com/track/QXxs7iZ3Rn/" value="https://www.epidemicsound.com/track/QXxs7iZ3Rn/"><button onclick="getThem();">Get Music</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value.split("track/").pop().replace("/", "");
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.epidemicsound.com/json/track/"+pub), d=>{
+			d=JSON.parse(d.contents);
+			let sname = Object.keys(d.stems);
+			sname.forEach(stem=>{
+				let cs=d.stems[stem];
+				addAud(cs.lqMp3Url, d.title+" - "+cs.stemType)
+			});
+		});
+	}
+	function addAud(url, t){
+		let tmp=document.createElement("audio");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+

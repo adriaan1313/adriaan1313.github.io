@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+	<style>
+		.pub {
+			border: 1px solid gray;
+			border-radius: 5px;
+			width: 123px;
+			display: inline-block;
+			text-decoration: none;
+			color: black;
+			padding-top: 100%
+			height: 1em;
+			position:relative;
+			vertical-align: middle;
+		}
+		.pub img {
+			width: 100%;
+		}
+		.pub p {
+			max-width: 100%;
+			padding: 0px;
+			margin: 0px;
+			overflow-wrap: break-word;
+			text-align: center;
+		}
+		.date {
+			font-size: 9pt;
+		}
+	</style>
+    <title>Omroep Zeeland lister (b)</title>
+  </head>
+  <body>
+	<label for=medium>Type: </label><select name=medium id=medium><option value="">Everything</option><option value="NewsItem">News</option><option value="VideoItem">Video</option><option value="AudioItem">Audio</option><option value="TvSeries">Tv programmes</option><option value="TvSeriesEpisode">Tv episodes</option><option value="RadioSeries">Radio programmes</option><option value="RadioSeriesEpisode">Radio episodes</option><option value="ContentPage">Pages</option></select><button onclick="getThemButton();">Get Results</button><br>
+	<div id=o></div>
+    <script>
+	  function sleep(ms) {
+	  	return new Promise(resolve => setTimeout(resolve, ms));
+      }
+	  const ughs = new URL(window.location.href);
+	  let med = ughs.searchParams.get("searchItemType");
+	  if(med){getThem();}
+	  function getThem(){
+		$.getJSON(`https://www.omroepzeeland.nl/Zoeken/Results?query=%2A&searchItemType=${med}&page=1`, gotPageOne);
+	  }
+	  function getThemButton(){
+	    med=document.getElementById("medium").value;
+		getThem();
+		document.getElementById("o").innerHTML=""
+	  }
+	  async function gotPageOne(d){
+        const q = $("#query").val();
+        for(let i = 2; i <= Math.min(d.pageCount, 8334); i++){//breaks after page 8334, from/to arguments do date filter
+          $.getJSON(`https://www.omroepzeeland.nl/Zoeken/Results?query=%2A&searchItemType=${med}&page=${i}`, data);
+            await sleep(50);
+        }
+		data(d);
+      }
+	  async function data(data){
+		let o = document.getElementById("o");
+		for(let i=0;i<data.searchResults.length;i++){
+			let tmp0 = document.createElement(`a`);
+			tmp0.classList.add("pub");
+			tmp0.href = "https://omroepzeeland.nl" + data.searchResults[i].url;
+			let tmp1 = document.createElement(`p`);
+			tmp1.innerHTML = data.searchResults[i].title.trim();
+			tmp0.appendChild(tmp1);
+			let hr = document.createElement(`hr`);
+			tmp0.appendChild(hr);
+			let a = document.createElement(`p`);
+			a.innerHTML = data.searchResults[i].description||data.searchResults[i].itemDescription;
+			tmp0.appendChild(a);
+			hr = document.createElement(`hr`);
+			tmp0.appendChild(hr);
+			let b = document.createElement(`p`);
+			b.innerHTML = data.searchResults[i].publicationTimeString.trim()||"";
+			b.classList.add("date");
+			tmp0.appendChild(b);
+			
+			o.appendChild(tmp0);
+		}
+	  }
+	$(document).ajaxError((e,req,s,tE)=>{
+		if(s.url.indexOf("https://www.omroepzeeland.nl/zoeken/Results?query=%2A&searchItemType=")!=-1) $.getJSON(s.url, data);
+		console.log(tE);
+	});
+    </script>
+  </body>
+</html>

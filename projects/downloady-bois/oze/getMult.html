@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Omroep Zeeland getter (mult)</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.omroepzeeland.nl/tv/programma/370060062/De-Canon-van-Zeeland/aflevering/370075698/De-herdijking-en-de-polders-van-Noord-Beveland" value="https://www.omroepzeeland.nl/tv/programma/370060062/De-Canon-van-Zeeland/aflevering/370075698/De-herdijking-en-de-polders-van-Noord-Beveland"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.get(pub, d=>{
+			if(d.indexOf("/p/regiogrid/")!=-1){
+				playerScript("https://omroepzeeland.bbvms.com/p/regiogrid"+d.split("/p/regiogrid")[1].split(".")[0]+".js");
+			}else if(d.indexOf("media/bluebillywigplayeroptions")!=-1){
+			$.getJSON(`https://www.omroepzeeland.nl/media/bluebillywigplayeroptions/${d.split("media/bluebillywigplayeroptions/").pop().split(".json")[0]}.json`, da =>{
+				for(i=0; i<da.clipData.assets.length; i++){
+					if(da.clipData.assets[i].src.indexOf("regiogrid")!=-1){
+						playerScript("https://omroepzeeland.bbvms.com/"+da.clipData.assets[i].src.split(".html")[0]+".js");
+					}
+				}
+			});}
+		})
+	}
+	function playerScript(url){
+		$.get(url, dat=>{
+			dat = JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]);
+			if(dat.clipListData){
+				dat.clipListData.items.forEach(cD=>{
+					addFromClipData(cD, dat.publicationData);
+				});
+			}
+			else addFromClipData(dat.clipData, dat.publicationData);
+		});
+	}
+	function addFromClipData(cD, pD){
+		for(j=0; j<cD.assets.length; j++){
+			addVid(pD.defaultMediaAssetPath+cD.assets[j].src, cD.title+": "+(cD.assets[j].jobqid||cD.assets[j].jobqid||(cD.assets[j].mediatype.toLowerCase()+"-"+cD.assets[j].width+"x"+cD.assets[j].height+"-"+cD.assets[j].bandwidth)));
+		}
+	}
+	function addVid(url, q){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=q+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+
