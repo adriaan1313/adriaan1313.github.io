@@ -78,7 +78,7 @@
 	  async function gotPageOne(d){
         const q = $("#query").val();
         for(let i = 2; i <= Math.min(d.pageCount, 8334); i++){//breaks after page 8334, from/to arguments don't do anything?
-          $.getJSON(`https://www.omroepzeeland.nl/RadioTv/Results?medium=${med}&page=${i}`, data);
+          $.getJSON(`https://www.omroepzeeland.nl/RadioTv/Results?medium=${med}&category=${cat}&page=${i}`, data);
             await sleep(50);
         }
 		data(d);
