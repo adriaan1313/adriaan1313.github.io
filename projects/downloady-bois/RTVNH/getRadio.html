@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>NH getter (NHRadio.nl)</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://nhradio.nl/uitzending/55035a4ab7673f05c6d79ef25479d832/" value="https://nhradio.nl/uitzending/55035a4ab7673f05c6d79ef25479d832/"><button onclick="getThem();">Get Stream</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), d=>{
+			d=d.contents;
+			if(d.indexOf("output=player")!=-1) {//video
+				addStr(htmlDecode(d.split("<noscript><iframe src=\"")[1].split("=player")[0]+"=playlist.m3u8"), d.split("<h1>")[1].split("</h1>")[0]);
+			}
+			else if(d.indexOf("audio src=\"")!=-1) {//live player
+				addMed(htmlDecode(d.split("audio src=\"")[1].split("\"")[0]), "Live")
+			}
+			else addMed(htmlDecode(d.split("<div id=\"oud\"> <a class=\"btn btn-primary\" href=\"")[1].split("\"")[0]), d.split("<h1>")[1].split("</h1>")[0]);//audio
+		});
+	}
+	function gP(u){
+		U=new URL(u);
+		return U.pathname;
+	}
+	function addStr(url, t){
+		let tmp=document.createElement("p");
+		tmp.innerHTML=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		o.appendChild(tmp);
+		console.log(url)
+	}
+	function addMed(url, t){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+	function htmlDecode(value) {
+		return $("<textarea/>").html(value).text();
+	}
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>NH getter (NHNieuws.nl)</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.nhnieuws.nl/nieuws/293669/politiek-tekenaar-joep-bertrams-ik-doe-wat-ik-het-liefste-doe" value="https://www.nhnieuws.nl/nieuws/293669/politiek-tekenaar-joep-bertrams-ik-doe-wat-ik-het-liefste-doe"><button onclick="getThem();">Get Stream</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), d=>{
+			d=d.contents;
+			__APPSETTINGS__ = JSON.parse(d.split("__APPSETTINGS__ = ")[1].split("<"+"/script>")[0]);
+			if(d.indexOf("__INITIAL_PROPS__")!=-1) var __INITIAL_PROPS__ = JSON.parse(d.split("__INITIAL_PROPS__ = ")[1].split("<"+"/script>")[0]);
+			__INIT_DATA__ = JSON.parse(d.split("__INIT_DATA__ = ")[1].split("<"+"/script>")[0]);
+			if(__INITIAL_PROPS__) __INITIAL_PROPS__.pageData.media.forEach(m=>{addStr(m.externalId, m.image.title);});
+			else if(pub.indexOf("nhnieuws.nl/media")!=-1){
+				addStr(__INIT_DATA__.videoStream, "Live TV");
+				addStr(__INIT_DATA__.visualRadioStream, "Kijk Radio")
+			}
+			else {
+				path=__APPSETTINGS__.apiUrl+"/api"+gP(d.split("rel=\"canonical\" href=\"")[1].split("\"")[0]);
+				console.log(path)
+				$.getJSON("https://api.allorigins.win/get?url="+ encodeURIComponent(path), da=>{
+					da=JSON.parse(da.contents);
+					addMed(da.fileLocation, da.title);
+				});
+			}
+		});
+	}
+	function gP(u){
+		U=new URL(u);
+		return U.pathname;
+	}
+	function addStr(url, t){
+		let tmp=document.createElement("p");
+		tmp.innerHTML=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		o.appendChild(tmp);
+		console.log(url)
+	}
+	function addMed(url, t){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+

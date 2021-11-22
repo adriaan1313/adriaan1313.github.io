@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Omroep Fryslân getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.omropfryslan.nl/nijs/1102097-ricardo-sil-sinteklaas-ynhelje-yn-ljouwert-ik-ben-een-landverrader" value="https://www.omropfryslan.nl/nijs/1102097-ricardo-sil-sinteklaas-ynhelje-yn-ljouwert-ik-ben-een-landverrader"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub='https://api.allorigins.win/get?url='+encodeURIComponent(document.getElementById("pub").value);
+		$.get(pub, d=>{
+			d=d.contents;
+			if(d.indexOf("embedURL")!=-1) {
+				
+				a = checkOccurences(d, "embedURL\" content=\"");
+				console.log(a);
+				for(let i=0; i<a; i++){
+					playerJSON(d.split("embedURL\" content=\"")[1+i].split(".html")[0]+".json");
+				}
+			} else {
+				playerScript(d.split("<div id=\"player\">\n    <"+"script src=\"")[1].split("\"")[0]);
+			}
+		})
+	}
+	function playerScript(url){
+		$.get(url, dat=>{
+			blueBillyData(JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]));
+		});
+	}
+	function playerJSON(url){
+		$.getJSON(url, dat=>{
+			blueBillyData(dat);
+		});
+	}
+	function blueBillyData(dat){
+		if(dat.clipListData){
+			dat.clipListData.items.forEach(cD=>{
+				addFromClipData(cD, dat.publicationData);
+			});
+		}
+		else addFromClipData(dat.clipData, dat.publicationData);
+	}
+	function addFromClipData(cD, pD){
+		for(j=0; j<cD.assets.length; j++){
+			if(cD.assets[j].src.indexOf("http")!=0) var pth=pD.defaultMediaAssetPath+cD.assets[j].src;
+			else var pth=cD.assets[j].src;
+			addVid(pth, cD.title+": "+(cD.assets[j].jobqid||cD.assets[j].jobqid||(cD.assets[j].mediatype.toLowerCase()+"-"+cD.assets[j].width+"x"+cD.assets[j].height+"-"+cD.assets[j].bandwidth)));
+		}
+	}
+	function addVid(url, q){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=q+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+	function checkOccurences(string, word) {
+		return string.split(word).length - 1;
+	}
+    </script>
+  </body>
+</html>
+

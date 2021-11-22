@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Omroep West getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.omroepwest.nl/video/4470153/onteigening-boeren-krimpenerwaard-het-gaat-echt-met-de-botte-bijl" value="https://www.omroepwest.nl/video/4470153/onteigening-boeren-krimpenerwaard-het-gaat-echt-met-de-botte-bijl"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub='https://api.allorigins.win/get?url='+encodeURIComponent(document.getElementById("pub").value);
+		$.get(pub, d=>{
+			a=d.contents.split("sourceid")[1].split("\"")[0];//not sure if this is a good way of getting the id, but i don't have a better idea, also means it doesn't work for live ones i think
+			playerJSON("https://omroepwest.bbvms.com/p/regiogroei_west_web_videoplayer/c/sourceid"+a+".json");
+		})
+	}
+	function playerScript(url){
+		$.get(url, dat=>{
+			blueBillyData(JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]));
+		});
+	}
+	function playerJSON(url){
+		$.getJSON(url, dat=>{
+			blueBillyData(dat);
+		});
+	}
+	function blueBillyData(dat){
+		if(dat.clipListData){
+			dat.clipListData.items.forEach(cD=>{
+				addFromClipData(cD, dat.publicationData);
+			});
+		}
+		else addFromClipData(dat.clipData, dat.publicationData);
+	}
+	function addFromClipData(cD, pD){
+		console.log(pD, cD)
+		for(j=0; j<cD.assets.length; j++){
+			addVid(pD.defaultMediaAssetPath+cD.assets[j].src, cD.title+": "+(cD.assets[j].jobqid||cD.assets[j].jobqid||(cD.assets[j].mediatype.toLowerCase()+"-"+cD.assets[j].width+"x"+cD.assets[j].height+"-"+cD.assets[j].bandwidth)));
+		}
+	}
+	function addVid(url, q){
+		let tmp=document.createElement("video");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=q+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+
