@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en-GB">
+	<head>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.js" ></script>
+		<title>Processing project</title>
+	</head>
+	<body style="margin: 0px; padding: 0px; background: black;">
+		<H1 id="h1" style="margin: 0px; padding: 0px; background: black; color: white;">PLEASE DO NOT BLOCK JAVASCRIPT, ALSO DON'T USE INTERNET EXPLORER (OR SIMILAR)</H1>
+		<script>
+			
+            let ughs = new URL(window.location.href);
+            let id = ughs.searchParams.get("id");
+            let urls;
+            
+			let h1 = document.getElementById("h1");
+			h1.innerHTML = "";
+			h1.outerHTML = '<iframe src="https://editor.p5js.org/adriaan1313/full/'+id+'" frameborder="0" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" allowfullscreen>Enable IFrames</iframe>';
+		</script>
+	</body>
+</html>

@@ -7,30 +7,56 @@
 	<style>img{display: inline-block;}</style>
   </head>
   <body>
-	Link: <input type=text id=pub placeholder="https://www.omroepzeeland.nl/tv/programma/370060062/De-Canon-van-Zeeland/aflevering/370077612/Nehalennia-en-haar-tempel" value="https://www.omroepzeeland.nl/tv/programma/370060062/De-Canon-van-Zeeland/aflevering/370077612/Nehalennia-en-haar-tempel"><button onclick="getThem();">Get Media</button><br>
+	Link: <input type=text id=pub placeholder="https://www.omroepzeeland.nl/tv/aflevering/nehalennia-en-haar-tempel/370077612" value="https://www.omroepzeeland.nl/tv/aflevering/nehalennia-en-haar-tempel/370077612"><button onclick="getThem();">Get Media</button><br>
 	<div id=o></div>
     <script>
+	const unwrap=d=>d.contents;
 	function getThem(){
 		let pub=document.getElementById("pub").value;
 		let o = document.getElementById("o");
-		$.get(pub, data=>{
-			id=data.split("omroepzeeland.bbvms.com/p/regiogrid")[1].split(".html")[0];
-			$.get("https://omroepzeeland.bbvms.com/p/regiogrid"+id+".js", dat=>{
-				dat = JSON.parse(dat.split("var opts = ")[1].split(";\n\n\t// include bluebillywig script")[0]);
-				for(i=0; i<dat.clipData.assets.length; i++){
-					let tmp=document.createElement("video");
-					tmp.controls="on";
-					let srt=document.createElement("source");
-					debugger;
-					if(dat.clipData.assets[i].src.indexOf(dat.publicationData.defaultMediaAssetPath)==-1)srt.src=dat.publicationData.defaultMediaAssetPath+dat.clipData.assets[i].src;
-					else srt.src=dat.clipData.assets[i].src;
-					let tmpp=document.createElement("p");
-					tmpp.innerHTML=dat.clipData.assets[i].jobqid||dat.clipData.assets[i].jobqid||(dat.clipData.assets[i].mediatype.toLowerCase()+"-"+dat.clipData.assets[i].width+"x"+dat.clipData.assets[i].height+"-"+dat.clipData.assets[i].bandwidth)+":";
-					o.appendChild(tmpp);
-					tmp.appendChild(srt);
-					o.appendChild(tmp);
-					console.log(srt.src);
-				}
+		$.get('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), data=>{
+			data=unwrap(data);
+			let id;
+			if(pub.indexOf("/tv/omroep-zeeland-tv/live")!=-1||pub.indexOf("/radio/omroep-zeeland-radio/live")!=-1) id=data.split("\"mobile\",\"tablet\",\"desktop\",\"header\",")[1].split("\"")[1];
+			else if(pub.indexOf("/nieuws/")!=-1)id=data.split(",\"video-asset\"")[0].split(",").pop().split("\"")[1];
+			else id=data.split("\"singlecolumn\",{},")[1].split("\"")[1];
+			
+			console.log(id)
+			$.get('https://api.allorigins.win/get?url=' + encodeURIComponent("https://omroepzeeland.bbvms.com/p/regiogroei_zeeland_web_videoplayer/c/"+id+".json"), dat=>{
+				console.log(unwrap(dat));
+				dat=JSON.parse(unwrap(dat));
+				if(dat.clipData&&dat.clipData.assets){ //aaaaaaaaaaah why did you have to fuck up your own website, now it can't even show the video
+					for(i=0; i<dat.clipData.assets.length; i++){
+						let tmp=document.createElement("video");
+						tmp.controls="on";
+						let srt=document.createElement("source");
+						//debugger;
+						if(dat.clipData.assets[i].src.indexOf(dat.publicationData.defaultMediaAssetPath)==-1)srt.src=dat.publicationData.defaultMediaAssetPath+dat.clipData.assets[i].src;
+						else srt.src=dat.clipData.assets[i].src;
+						let tmpp=document.createElement("p");
+						tmpp.innerHTML=dat.clipData.assets[i].jobqid||dat.clipData.assets[i].jobqid||(dat.clipData.assets[i].mediatype.toLowerCase()+"-"+dat.clipData.assets[i].width+"x"+dat.clipData.assets[i].height+"-"+dat.clipData.assets[i].bandwidth)+":";
+						o.appendChild(tmpp);
+						tmp.appendChild(srt);
+						o.appendChild(tmp);
+						console.log(srt.src);
+					}
+				} else $.get('https://api.allorigins.win/get?url=' + encodeURIComponent("https://omroepzeeland.bbvms.com/p/regiogroei_zeeland_web_videoplayer/c/"+id.split("sourceid_string:")[1]+".json"), da=>{
+					da=JSON.parse(unwrap(da));
+					for(i=0; i<da.clipData.assets.length; i++){
+						let tmp=document.createElement("video");
+						tmp.controls="on";
+						let srt=document.createElement("source");
+						//debugger;
+						if(da.clipData.assets[i].src.indexOf(da.publicationData.defaultMediaAssetPath)==-1)srt.src=da.publicationData.defaultMediaAssetPath+da.clipData.assets[i].src;
+						else srt.src=da.clipData.assets[i].src;
+						let tmpp=document.createElement("p");
+						tmpp.innerHTML=da.clipData.assets[i].jobqid||da.clipData.assets[i].jobqid||(da.clipData.assets[i].mediatype.toLowerCase()+"-"+da.clipData.assets[i].width+"x"+da.clipData.assets[i].height+"-"+da.clipData.assets[i].bandwidth)+":";
+						o.appendChild(tmpp);
+						tmp.appendChild(srt);
+						o.appendChild(tmp);
+						console.log(srt.src);
+					}
+				});
 			});
 		});
 	}

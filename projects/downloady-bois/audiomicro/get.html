@@ -17,7 +17,7 @@
 			if(typeof(d)=="object")d=d.contents;
 			t=d.split('"twitter:description" content="')[1].split('">')[0];
 			c=d.split('"twitter:player:stream:content_type" content="')[1].split('">')[0]
-			else addAud(d.split('"twitter:player:stream" content="')[1].split('">')[0], t, c);
+			addAud(d.split('"twitter:player:stream" content="')[1].split('">')[0], t, c);
 		});
 	}
 	function addAud(url, t, c){
