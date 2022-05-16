@@ -1,91 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
-  <url>
-    <loc>https://adriaan1313.github.io</loc>
-    <lastmod>2021-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/index.htm</loc>
-    <lastmod>2021-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/game-idk</loc>
-    <lastmod>2021-03-28</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/game-idk/index.htm</loc>
-    <lastmod>2021-03-28</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/DTMF</loc>
-    <lastmod>2020-03-24</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/DTMF/index.html</loc>
-    <lastmod>2020-03-24</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/c³</loc>
-    <lastmod>2020-03-24</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/c³/index.html</loc>
-    <lastmod>2020-03-24</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/oze</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/oze/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/oze/listns.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/lalela</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/lalela/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/nicknl</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/nicknl/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/epidemic</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/epidemic/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/audiomicro</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/downloady-bois/audiomicro/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/publitas-lister</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/publitas-lister/get.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
-    <loc>https://adriaan1313.github.io/projects/publitas-lister/list.html</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+	<loc>https://adriaan1313.github.io/</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/publitas-lister</loc>
+	<lastmod>2021-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/oze</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/audiomicro</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/epidemic</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/nicknl</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/lalela</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/Omroep%20West</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/Omroep%20Brabant</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/Omroep%20Fryslan</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/downloady-bois/RTVNH</loc>
+	<lastmod>2020-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/processing/?id=ffMk8HXEu</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/processing/?id=Ur4u0HM4p</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/processing/?id=nyq8Ftqo3</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/processing/?id=wuOAPwAY_</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/processing/?id=64I9ZVj11</loc>
+	<lastmod>2022-05-15</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/c³</loc>
+	<lastmod>2020-03-24</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/game-idk</loc>
+	<lastmod>2021-03-28</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/DTMF</loc>
+	<lastmod>2020-03-24</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/SNGCSV</loc>
+	<lastmod>2021-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/?dark</loc>
+	<lastmod>2021-10-17</lastmod>
+</url>
+<url>
+	<loc>https://adriaan1313.github.io/projects/publitas-lister/</loc>
+	<lastmod>2021-10-17</lastmod>
+</url>
 </urlset>
