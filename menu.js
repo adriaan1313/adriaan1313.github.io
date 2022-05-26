@@ -1,7 +1,7 @@
 const menu = `<div id="menu">
 	<ul>
 		<li style="width: 4em;">
-			<a href="/" style="width: 4em;"><div style="width: 4em;">Home</div></a>
+			<a href="/" style="width: 4em;" id="home"><div style="width: 4em;">Home</div></a>
 		</li>
 		<li>
 			<a href="https://github.com/adriaan1313/downloady-bois"><div><span style="font-size: 11pt;line-height:9pt;">Downloady-bois</span></div></a>
