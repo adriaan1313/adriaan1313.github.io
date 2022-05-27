@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en-NL">
+	<head>
+		<title>Bunny's site</title>
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="The project page for replace colour and unblend on Bunny's Site">
+		<meta property="og:url" content="https://adriaan1313.github.io/P5/rc_ub.htm">
+		<meta property="og:image" content="https://adriaan1313.github.io/img/uwu_scaled.png">
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+		<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/">
+		<meta name="DC.Title" content="The project page for replace colour and unblend on Bunny's Site">
+		<meta name="DC.Creator" content="Bunnygamers">
+		<meta name="DC.Subject" content="cats">
+		<meta name="DC.Subject" content="bunnygamers">
+		<meta name="DC.Subject" content="bunny">
+		<meta name="DC.Subject" content="p5">
+		<meta name="DC.Subject" content="js">
+		<meta name="DC.Subject" content="p5.js">
+		<meta name="DC.Subject" content="replace colour">
+		<meta name="DC.Subject" content="remove backgound">
+		<meta name="DC.Subject" content="unblend">
+		<meta name="DC.Subject" content="javascript">
+		<meta name="DC.Subject" content="maths">
+		<meta name="DC.Description" content="Unblend is a P5 thing that replaces a given colour with transparency and replace colour does the same thing, but it replaces the colour with a different colour instead of transparency.">
+		<meta name="DCTERMS.Created" content="2022-05-27">
+		<meta name="DC.Type" content="Website">
+		<meta name="DC.Format" content="text/html">
+		<meta name="DC.Identifier" content="https://adriaan1313.github.io/P5/rc_ub.htm">
+		<meta name="DC.Language" scheme="DCTERMS.ISO639-2" content="eng">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="194x194" href="/favicon-194x194.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fdbc08">
+		<meta name="msapplication-TileColor" content="#fdbc08">
+		<meta name="theme-color" content="#fdbc08">
+		<link id="stylesheet" href="/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<script src="/menu.js"></script>
+		<div id="container">
+			<div id="header">
+				<h1>
+					Replace Colour &amp; Unblend
+				</h1>
+			</div>
+			<div id="links">
+				<p><a href="https://twitter.com/bunnygamersMC"><img src="https://simpleicons.org/icons/twitter.svg" height="20" width="20"></a> <a href="https://discordapp.com/users/220821856976896001"><img src="https://simpleicons.org/icons/discord.svg" height="20" width="20"></a> <a href="https://github.com/adriaan1313"><img src="https://simpleicons.org/icons/github.svg" height="20" width="20"></a> <a href="https://www.youtube.com/channel/UCx88h6TSBgCaxiPj5QU8FOQ"><img src="https://simpleicons.org/icons/youtube.svg" height="20" width="20"></a></p>
+				<p><a href="https://editor.p5js.org/adriaan1313/sketches/ffMk8HXEu"><img src="https://simpleicons.org/icons/p5dotjs.svg" height="20" width="20"/>Source: Unblend</a></p>
+				<p><a href="/projects/processing?id=ffMk8HXEu"><img src="https://simpleicons.org/icons/p5dotjs.svg" height="20" width="20"/>Demo: Unblend</a></p>
+				<p><a href="https://editor.p5js.org/adriaan1313/sketches/Ur4u0HM4p"><img src="https://simpleicons.org/icons/p5dotjs.svg" height="20" width="20"/>Source: Replace Colour</a></p>
+				<p><a href="/projects/processing?id=Ur4u0HM4p"><img src="https://simpleicons.org/icons/p5dotjs.svg" height="20" width="20"/>Demo: Replace Colour</a></p>
+			</div>
+			<div id="content">
+				<h2>Unblend &amp; Replace Colour</h2>
+					<div style="display: block; float: right;width: 20em; padding: 0px; margin:0px, 0px, 5pt, 0px; border:1pt solid black;"><a href="/img/uwu.png"><img src="/img/uwu_scaled.png" style="width: 20em;" /></a><p>^ Earth, but instead of water being blue, it's purple/"orange"/red/green. Made with Replace Colour, source: NASA</p><a href="/img/unblend_in.png"><img src="/img/unblend_in.png" style="width: 20em;" /></a><a href="/img/unblend_out.png"><img src="/img/unblend_out.png" style="width: 20em;" /></a><p>^ Some colour light thing, but the black is replaced with transparency. Made with unblend, source: N/A. (top is input)</p></div> 
+				<p>
+					Unblend is a P5 thing that replaces a given colour with transparency, but not like a magic wand tool or a chroma key because it keeps on blending until there is no trace of the colour left.<br>
+					Replace colour does the same thing, but it replaces the colour with a different colour instead of transparency. (brown is just dark orange ok, don't judge me)
+				</p>
+				<h2 id="unblend">Maths: Unblend</h2>
+				<p>
+					To unblend a pixel, it first calculates how far away the colour of the pixel is from the selected colour. To do this, it takes the maximum (on default settings, it is also the correct setting) of the absolute difference of the values for each of the colours.<br />
+					<span class="code">dist = max(|pixel_red-selected_red|,|pixel_green-selected_blue|,|pixel_green-selected_blue|)</span><br />
+					Now, to get the "original colour," it does some more maths to every channel:<br />
+					<span class="code">output_red = (255*pixel_red+(-255+dist)*selected_red)/dist</span><br />
+					<span class="code">output_green = (255*pixel_green+(-255+dist)*selected_green)/dist</span><br />
+					<span class="code">output_blue = (255*pixel_blue+(-255+dist)*selected_blue)/dist</span><br />
+					It then draws a pixel to the canvas with the colour and as alpha value the <i>dist</i> value and goes to the next pixel (until it's done).
+				</p>
+				<h2 id="rc">Maths: Replace Colour</h2>
+				<p>
+					Replace Colour works very similarly to unblend, so the distance is calculated in the same way, but here the value is renamed because there are two colour pickers.<br />
+					<span class="code">dist = max(|pixel_red-from_red|,|pixel_green-from_green|,|pixel_blue-from_blue|)</span><br />
+					If this distance is 0, it sets the output pixel to the second colour picker<br />
+					Else, to get the new colour it does some more maths to every channel:<br />
+					<span class="code">output_red = (255*pixel_red+(-255+dist)*from_red+to_red*(255-dist))/255</span><br />
+					<span class="code">output_green = (255*pixel_green+(-255+dist)*from_green+to_green*(255-dist))/255</span><br />
+					<span class="code">output_blue = (255*pixel_blue+(-255+dist)*from_blue+to_blue*(255-dist))/255</span><br />
+					It then draws a pixel to the canvas with the colour, just copies the alpha from the original image and goes to the next pixel (until it's done).
+				</p>
+				
+			</div>
+		</div>
+		
+		<a id="dark" href="?dark">dark mode</a>
+		<script src="/darkMode.js"></script>
+	</body>
+</html>

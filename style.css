@@ -122,3 +122,12 @@ h2 {
 #content p {
 	color:#456789;
 }
+
+.code {
+	background:black;
+	border-radius:5px;
+	outline:2px solid #222;
+	outline-offset:-2px;
+	padding:2px;
+	color:#c8dff4;
+}
