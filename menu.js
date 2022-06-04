@@ -73,14 +73,14 @@ const menu = `<div id="menu">
 			<a href="#"><div><span style="font-size: 11pt;line-height:9pt;">P5 Stuff</span></div></a>
 			<ul>
 				<li>
-					<a href="http://localhost:8080/projects/P5/rc_ub.htm#unblend" class="mL"><div>unblend</div></a>
+					<a href="/projects/P5/rc_ub.htm#unblend" class="mL"><div>unblend</div></a>
 					<ul>
 						<li><a href="/projects/processing?id=ffMk8HXEu"><div>Demo</div></a></li>
 					</ul>
 				</li>
 				
 				<li>
-					<a href="http://localhost:8080/projects/P5/rc_ub.htm#rc" class="mL"><div>replace colour</div></a>
+					<a href="/projects/P5/rc_ub.htm#rc" class="mL"><div>replace colour</div></a>
 					<ul>
 						<li><a href="/projects/processing?id=Ur4u0HM4p"><div>Demo</div></a></li>
 					</ul>
