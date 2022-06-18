@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>Extreme Music getter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.extrememusic.com/albums/2725" value="https://www.extrememusic.com/albums/2725"><button onclick="getThem();">Get Media</button><br>
+	<div id=o></div>
+    <script>
+	$.ajaxSetup({cache:false});//aaaaah why are you caching tokens
+	let token;
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		
+		if(pub.indexOf("extrememusic.com/albums/")!=-1){
+			if(!token){
+				$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent("https://www.extrememusic.com/env"), d=>{
+					d=JSON.parse(d.contents);
+				 
+					token=d.token;
+					$.ajaxSetup({headers:{"X-API-Auth":token}});//dont want to do it every time
+				
+					//console.log(token);
+					getAlbum(pub);
+				});
+			} else getAlbum(pub);
+		}
+	}
+	
+	function getAlbum(pub){
+		const albumID=pub.split("/albums/")[1].split("?")[0];
+		$.getJSON("https://napi.extrememusic.com/albums/"+albumID, da=>{
+			da.track_sounds.forEach(ts=>{
+				if(pub.indexOf("item=")!=-1){
+					const track=pub.split("item=")[1].split("&")[0];
+					if(ts.track_id==track){
+						addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type);
+					}
+				}//only that track
+				else addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type);
+			});
+		});
+	}
+	
+	function addAud(url, t){
+		let tmp=document.createElement("audio");
+		tmp.controls="on";
+		let srt=document.createElement("source");
+		srt.src=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		tmp.appendChild(srt);
+		o.appendChild(tmp);
+		console.log(srt.src);
+	}
+    </script>
+  </body>
+</html>
+
