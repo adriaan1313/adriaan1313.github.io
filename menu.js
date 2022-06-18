@@ -32,6 +32,12 @@ const menu = `<div id="menu">
 					</ul>
 				</li>
 				<li>
+					<a href="https://github.com/adriaan1313/downloady-bois/tree/main/extrememusic" class="mL"><div>Extreme Music</div></a>
+					<ul>
+						<li><a href="/projects/downloady-bois/extrememusic"><div>Demo</div></a></li>
+					</ul>
+				</li>
+				<li>
 					<a href="https://github.com/adriaan1313/downloady-bois/tree/main/nicknl" class="mL"><div>Nickelodeon Nederland &amp; België</div></a>
 					<ul>
 						<li><a href="/projects/downloady-bois/nicknl"><div>Demo</div></a></li>
