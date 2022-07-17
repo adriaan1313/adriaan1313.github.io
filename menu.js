@@ -147,7 +147,12 @@ const menu = `<div id="menu">
 			<a href="#"><div>Other Stuff</div></a>
 			<ul>
 				<li><a href="https://github.com/adriaan1313/GM4_Resources_32x32" class="mL"><div>GM4 Faithful</div></a></li>
-				<li><a href="https://www.youtube.com/channel/UCcGALopqQX4YxuN1StrkPoA" class="mL"><div>Music</div></a></li>
+				<li>
+					<a href="https://www.youtube.com/channel/UCcGALopqQX4YxuN1StrkPoA" class="mL"><div>Music</div></a>
+					<ul>
+						<li><a href="https://bunnyms.github.io/"><div>Listen on-line!</div></a></li>
+					</ul>
+				</li>
 				<li>
 					<a class="mL"><div>School Stuff</div></a>
 					<ul>
