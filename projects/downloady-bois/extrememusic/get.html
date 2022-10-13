@@ -38,27 +38,30 @@
 				if(pub.indexOf("item=")!=-1){
 					const track=pub.split("item=")[1].split("&")[0];
 					if(ts.track_id==track){
-						addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type);
+						addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type, ts.assets.audio.preview_url_hls.split(".m3u8")[0]+"/HLS/128_v4.m3u8"); //get 192kbps mp3 url and hack the hls url into a 128kbps aac m3u8 url...
 					}
 				}//only that track
-				else addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type);
+				else addAud(ts.assets.audio.preview_url, ts.track_sound_no+": "+ts.title+" - "+ts.version_type, ts.assets.audio.preview_url_hls.split(".m3u8")[0]+"/HLS/128_v4.m3u8");
 			});
 		});
 	}
 	
-	function addAud(url, t){
+	function addAud(url, t, url2){
 		let tmp=document.createElement("audio");
 		tmp.controls="on";
 		let srt=document.createElement("source");
 		srt.src=url;
 		let tmpp=document.createElement("p");
 		tmpp.innerHTML=t+":";
+		let hls=document.createElement("p");
+		hls.innerHTML=url2;
 		o.appendChild(tmpp);
 		tmp.appendChild(srt);
 		o.appendChild(tmp);
+		o.appendChild(hls);
 		console.log(srt.src);
+		
 	}
     </script>
   </body>
 </html>
-

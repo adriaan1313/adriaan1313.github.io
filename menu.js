@@ -20,7 +20,7 @@ const menu = `<div id="menu">
 					</ul>
 				</li>
 				<li>
-					<a href="https://github.com/adriaan1313/downloady-bois/tree/main/audiommicro" class="mL"><div>AudioMicro</div></a>
+					<a href="https://github.com/adriaan1313/downloady-bois/tree/main/audiomicro" class="mL"><div>AudioMicro</div></a>
 					<ul>
 						<li><a href="/projects/downloady-bois/audiomicro"><div>Demo</div></a></li>
 					</ul>
