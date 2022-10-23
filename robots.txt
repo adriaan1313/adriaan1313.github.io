@@ -4,3 +4,4 @@ Allow: /projects/DTMF
 Allow: /projects/game-idk
 Allow: /projects/P5/rc_ub.htm
 Disallow: /projects/
+Disallow: /index_ie.htm
