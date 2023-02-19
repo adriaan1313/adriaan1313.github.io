@@ -134,23 +134,32 @@ const menu = `<div id="menu">
 						<li><a href="/projects/SNGCSV"><div>Demo</div></a></li>
 					</ul>
 				</li>
+				<li>
+					<a href="https://github.com/adriaan1313/jwp-streaming-service" class="mL"><div>JWP &quot;streaming service&quot;</div></a>
+					<ul>
+						<li><a href="https://streaming-service.cyclic.app/"><div>Demo</div></a></li>
+					</ul>
+				</li>
 			</ul>
 		</li>
 		<li>
 			<a href="#"><div>More coding</div></a>
 			<ul>
-				<li><a href="http://imageandarchive.simpsite.nl/" class="mL"><div>IAA</div></a></li>
+				<li><a href="http://imageandarchive.github.io/" class="mL"><div>IAA</div></a></li>
 				<li><a href="https://github.com/Gamemode4Dev/GM4_Datapacks"><div>Gamemode 4</div></a></li>
 			</ul>
 		</li>
 		<li>
 			<a href="#"><div>Other Stuff</div></a>
 			<ul>
-				<li><a href="https://github.com/adriaan1313/GM4_Resources_32x32" class="mL"><div>GM4 Faithful</div></a></li>
+				<li><a href="https://github.com/adriaan1313/GM4_resources_faithful" class="mL"><div>GM4 Faithful</div></a></li>
 				<li>
 					<a href="https://www.youtube.com/channel/UCcGALopqQX4YxuN1StrkPoA" class="mL"><div>Music</div></a>
 					<ul>
 						<li><a href="https://bunnyms.github.io/"><div>Listen on-line!</div></a></li>
+					</ul>
+					<ul>
+						<li><a href="https://bunnyms.bandcamp.com/"><div>Gib moneys</div></a></li>
 					</ul>
 				</li>
 				<li>
