@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
-	<script src="https://cdn.jsdelivr.net/npm/json5@2/dist/index.min.js"></script>
     <title>Omroep Zeeland getter (b)</title>
 	<style>img{display: inline-block;}</style>
   </head>
@@ -18,12 +17,10 @@
 		$.get('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), data=>{
 			data=unwrap(data);
 			let id;
-			let nuxtOrd = data.split("window.__NUXT__=(function(")[1].split(")")[0].split(",");
-			if(pub.indexOf("/tv/omroep-zeeland-tv/live")!=-1||pub.indexOf("/radio/omroep-zeeland-radio/live")!=-1) id=JSON.parse(data.split("}}(")[1].split(",")[nuxtOrd.indexOf(data.split("components:[{")[1].split(/sourceId:|audioSourceId:/)[1].split(",")[0])]);
-			//else if() id=data.split("\"mobile\",\"tablet\",\"desktop\",\"header\",")[1].split("\"")[1];
-			else if(pub.indexOf("/nieuws/")!=-1||pub.indexOf("/zeeuwse-top-40/")!=-1)id=JSON5.parse("{"+data.split("asset:{")[1].split("}")[0]+"}").id;
-			else if(pub.indexOf("/video/")!=-1)id="sourceid_string:"+data.split("sourceid_string:")[1].split("\"")[0];
-			else id=data.split("components:[{")[1].split(/sourceId:"|audioSourceId:"/)[1].split("\"")[0];
+			const nuxtOrd = data.split("window.__NUXT__=(function(")[1].split(")")[0].split(",");
+			const nuxtArr = data.split("}}(")[1].split(",");
+			if(pub.indexOf("/video/")!=-1||pub.indexOf("/nieuws/")!=-1||pub.indexOf("/zeeuwse-top-40/")!=-1)id=find(nuxtOrd,nuxtArr,data.split("asset:{")[1].split("id:")[1].split(",")[0]);
+			else id=find(nuxtOrd,nuxtArr,data.split("components:[{")[1].split(/sourceId:|audioSourceId:/)[1].split(",")[0]);
 			
 			console.log(id)
 			$.get('https://api.allorigins.win/get?url=' + encodeURIComponent("https://omroepzeeland.bbvms.com/p/regiogroei_zeeland_web_videoplayer/c/"+id+".json"), dat=>{
@@ -63,6 +60,13 @@
 				});
 			});
 		});
+	}
+	function find(ord, arr, val){
+		console.log(val);
+		if(val.indexOf("\"")!=-1) return JSON.parse(val);
+		else {
+			return JSON.parse(arr[ord.indexOf(val)])
+		}
 	}
     </script>
   </body>
