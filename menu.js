@@ -157,8 +157,6 @@ const menu = `<div id="menu">
 					<a href="https://www.youtube.com/channel/UCcGALopqQX4YxuN1StrkPoA" class="mL"><div>Music</div></a>
 					<ul>
 						<li><a href="https://bunnyms.github.io/"><div>Listen on-line!</div></a></li>
-					</ul>
-					<ul>
 						<li><a href="https://bunnyms.bandcamp.com/"><div>Gib moneys</div></a></li>
 					</ul>
 				</li>
