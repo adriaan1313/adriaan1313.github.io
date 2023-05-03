@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en-UK">
 <head><title>SNGtoCSV</title></head>
 <body>
 <textarea id="file" name="file">
@@ -296,13 +296,27 @@
 <button onClick="go();">convert</button><br>
 <textarea name="csv" id="csv" placeholder="output goes here" readonly></textarea>
 <script>
+let roundness = 0;
 function go(){
 	let file= JSON.parse(document.getElementById("file").value);
-	let outstr= "0, 0, Header, 1, 1, 21168\n";
 	file.channels = file.channels.filter(channel => channel.type=="instrument"&&channel.regions.length != 0);
+	let outstr= `0, 0, Header, 1, ${file.channels.length}, ${2646000/file.bpm}\n`;
 	for(let i = 0; i < file.channels.length; i++){
 		file.channels[i].regions.sort(compare);
-		outstr+=`${i+1}, 0, Start_track\n${i+1}, 0, Tempo, ${60000000/file.bpm}\n${i+1}, 0, Program_c, 0, 0\n${i+1}, 0, Control_c, 0, 7, ${Math.round(file.channels[i].volume/2*127)}\n${i+1}, 0, Control_c, 0, 10, ${Math.round(file.channels[i].pan*127)}\n${i+1}, 0, Title_t, ${file.channels[i].name}\n${i+1}, 0, Instrument_name_t, ${file.channels[i].instrument.identifier}\n`;
+		outstr+=`${i+1}, 0, Start_track\n${i+1}, 0, Tempo, ${60000000/file.bpm}\n`;
+		if(file.channels[i].instrument.identifier == "com.soundation.GM-2"){
+			const bank=gmBankDetector(file.channels[i].instrument.sample_pack.value);
+			if(bank) outstr+=`${i+1}, 0, Control_c, ${i}, 0, ${bank[0]}\n${i+1}, 0, Control_c, ${i}, 32, ${bank[1]}\n`;//must be done before program change, but still seems not to work
+			outstr+=`${i+1}, 0, Program_c, ${i}, ${file.channels[i].instrument.sample_pack.value.split("_")[0]-1}\n`;
+		}
+		else if(file.channels[i].instrument.identifier == "com.soundation.supersaw") outstr+=`${i+1}, 0, Program_c, ${i}, 81\n`;
+		else if(file.channels[i].instrument.identifier == "com.soundation.SAM-1"){ 
+			const bank=samplerBankDetector(file.channels[i].instrument.sample_pack.value);
+			if(bank) outstr+=`${i+1}, 0, Control_c, ${i}, 0, ${bank[0]}\n${i+1}, 0, Control_c, ${i}, 32, ${bank[1]}\n`;
+			outstr+=`${i+1}, 0, Program_c, ${i}, ${samplerDetector(file.channels[i].instrument.sample_pack.value)}\n`;
+		};
+		//outstr+=`${i+1}, 0, Program_c, ${i}, 0\n`;
+		outstr+=`${i+1}, 0, Control_c, ${i}, 7, ${Math.round(file.channels[i].volume/2*127)}\n${i+1}, 0, Control_c, ${i}, 10, ${Math.round(file.channels[i].pan*127)}\n${i+1}, 0, Title_t, ${file.channels[i].name}\n${i+1}, 0, Instrument_name_t, ${file.channels[i].instrument.identifier}\n`;
 		//future stuff, i don't know about 
 		/*if(file.channels[i].instrument.resonance) outstr+=`${i+1}, 0, Control_c, 0, 71, ${Math.round(file.channels[i].instrument.resonance.value*127)}\n`;
 		else if(file.channels[i].instrument.filter_resonance) outstr+=`${i+1}, 0, Control_c, 0, 71, ${Math.round(file.channels[i].instrument.filter_resonance.value*127)}\n`;
@@ -315,22 +329,38 @@ function go(){
 		let events = [];
 		for(let j = 0; j < file.channels[i].regions.length; j++){
 			file.channels[i].regions[j].notes.sort(compare);
-			for(let k = 0; k < file.channels[i].regions[j].notes.length; k++){
-				events.push(`${i+1}, ${file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position}, Note_on_c, 0, ${file.channels[i].regions[j].notes[k].note+12}, ${file.channels[i].regions[j].notes[k].velocity*127}\n`);
-				events.push(`${i+1}, ${file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length}, Note_off_c, 0, ${file.channels[i].regions[j].notes[k].note+12}, 0\n`);
+			for (let currLoop = 0; currLoop < file.channels[i].regions[j].loopcount; currLoop++) {
+				for(let k = 0; k < file.channels[i].regions[j].notes.length; k++){
+					if(file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length+file.channels[i].regions[j].length*currLoop <= file.channels[i].regions[j].length*file.channels[i].regions[j].loopcount){
+						events.push(`${i+1}, ${Math.round(Math.pow(10, roundness)*file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].length*currLoop)/Math.pow(10, roundness)}, Note_on_c, ${i}, ${file.channels[i].regions[j].notes[k].note+12}, ${file.channels[i].regions[j].notes[k].velocity*127}\n`);
+						events.push(`${i+1}, ${Math.round(Math.pow(10, roundness)*file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length+file.channels[i].regions[j].length*currLoop)/Math.pow(10, roundness)}, Note_off_c, ${i}, ${file.channels[i].regions[j].notes[k].note+12}, 0\n`);
+					}
+				}
 			}
 		}
 		events.sort(compareE);
-		events.forEach(e => outstr += e);
-		
-		outstr+=`${i+1}, ${file.channels[i].regions[file.channels[i].regions.length-1].position+file.channels[i].regions[file.channels[i].regions.length-1].length}, End_track\n`;
-		//outstr+=`${i+1}, ${file.channels[i].regions[file.channels[i].regions.length-1].position+file.channels[i].regions[file.channels[i].regions.length-1].length}, End_track\n`;
+		numpl = {};
+		ptte = {};
+		events.forEach(e => {
+			n = e.split(', ')[4];
+			if(e.indexOf('Note_on_c') != -1) {outstr += e; numpl[n] = numpl[n]+1||1}
+			else if(e.indexOf('Note_off_c') != -1) {
+				ptte[n] = ptte[n]+1||1;
+				if(numpl[n] == 1) {
+					for(; ptte[n] > 0; ptte[n]--){
+						outstr+=e;
+					}
+				}
+				//else outstr += ";" + e;
+				numpl[n] -=1;
+			}
+		});
+		outstr+=`${i+1}, ${Math.round(Math.pow(10, roundness)*file.channels[i].regions[file.channels[i].regions.length-1].position+file.channels[i].regions[file.channels[i].regions.length-1].length*file.channels[i].regions[file.channels[i].regions.length-1].loopcount)/Math.pow(10, roundness)}, End_track\n`;
 	}
 	outstr+="0, 0, End_of_file\n";
 	csv.value=outstr;
 }
 function compareE(a, b) {
-  console.log(a.split(', ')[1].split(', note')[0],b.split(', ')[1].split(', note')[0]);
   if ((a.split(', ')[1].split(', note')[0])*1 < (b.split(', ')[1].split(', note')[0])*1)return -1;
   if ((a.split(', ')[1].split(', note')[0])*1 > (b.split(', ')[1].split(', note')[0])*1)return 1;
   else return 0;
@@ -340,7 +370,69 @@ function compare(a, b) {
   if (a.position > b.position)return 1;
   else return 0;
 }
+//81_0_Square_Lead.smplpck
 
+const bankMelo = {
+	"5_8_Detuned_EP_1.smplpck": 1,
+	"6_8_Detuned_EP_2.smplpck": 1,
+	"7_8_Coupled_Harpsichord.smplpck": 1,
+	"15_8_Church_Bell.smplpck": 1,
+	"17_8_Detuned_Organ_1.smplpck": 1,
+	"18_8_Detuned_Organ_2.smplpck": 1,
+	"20_8_Church_Organ_2.smplpck": 1,
+	"22_8_Italian_Accordion.smplpck": 1,
+	"25_8_Ukulele.smplpck": 1,
+	"26_8_12_String_Guitar.smplpck": 1,
+	"26_16_Mandolin.smplpck": 2,
+	"27_8_Hawaiian_Guitar.smplpck": 1,
+	"29_8_Funk_Guitar.smplpck": 1,
+	"31_8_Feedback_Guitar.smplpck": 1,
+	"32_8_Guitar_Feedback.smplpck": 1,
+	"39_8_Synth_Bass_3.smplpck": 2,//like wtf powerfx
+	"40_8_Synth_Bass_4.smplpck": 1,
+	"41_8_Slow_Violin.smplpck": 1,
+	"49_8_Orchestral_Pad.smplpck": 1,//eh, close enough
+	"51_8_Synth_Strings_3.smplpck": 1,
+	"62_8_Brass_2.smplpck": 1,
+	"63_8_Synth_Brass_3.smplpck": 1,
+	"64_8_Synth_Brass_4.smplpck": 1,
+	"81_8_Sine_Wave.smplpck": 2,//wtf
+	"108_8_Taisho_Koto.smplpck": 1,
+	"116_8_Castanets.smplpck": 1,
+	"117_8_Concert_Bass_Drum.smplpck": 1,
+	"118_8_Melo_Tom_2.smplpck": 1,
+	"119_8_808_Tom.smplpck": 1,
+	"126_9_Burst_Noise.smplpck": 9
+};
+const samplerBank = {
+	"com.soundation.samplepack.house_piano": 0 //eh what is a house piano supposed to be
+};
+const samplerPatch = {
+	"com.soundation.samplepack.acoustic_piano": 0,
+	"com.soundation.samplepack.house_piano": 0, //eh...
+	"com.soundation.samplepack.rhodes_piano": 4,
+	"com.soundation.samplepack.b3_organ": 17,
+	"com.soundation.samplepack.church_organ": 19,
+	"com.soundation.samplepack.acoustic_guitar": 25,
+	"com.soundation.samplepack.bass_guitar": 32,
+	"com.soundation.samplepack.cello": 42,
+	"com.soundation.samplepack.brass_ensemble": 61,
+	"com.soundation.samplepack.string_ensemble": 48
+};
+const bankDrum = ["10_128_Room_1.smplpck", "11_128_Room_2.smplpck", "12_128_Room_3.smplpck", "13_128_Room_4.smplpck", "14_128_Room_5.smplpck", "15_128_Room_6.smplpck", "16_128_Room_7.smplpck", "17_128_Power.smplpck", "18_128_Power_1.smplpck", "19_128_Power_2.smplpck", "1_128_Standard.smplpck", "20_128_Power_3.smplpck", "25_128_Electronic.smplpck", "26_128_TR-808.smplpck", "2_128_Standard_1.smplpck", "33_128_Jazz.smplpck", "34_128_Jazz_1.smplpck", "35_128_Jazz_2.smplpck", "36_128_Jazz_3.smplpck", "37_128_Jazz_4.smplpck", "3_128_Standard_2.smplpck", "41_128_Brush.smplpck", "42_128_Brush_1.smplpck", "43_128_Brush_2.smplpck", "49_128_Orchestra_Kit.smplpck", "4_128_Standard_3.smplpck", "5_128_Standard_4.smplpck", "6_128_Standard_5.smplpck", "7_128_Standard_6.smplpck", "8_128_Standard_7.smplpck", "9_128_Room.smplpck"];
+function gmBankDetector(sP) {
+	if(bankDrum.indexOf(sP)!=-1) return [120, 0];//drums don't work anyways, but still
+	else if(bankMelo[sP]) return [121, bankMelo[sP]];
+	else return false;
+}
+function samplerBankDetector(sP) {
+	if(samplerBank[sP]) return [121, bankMelo[sP]];
+	else return false;
+}
+function samplerDetector(sP) {
+	if(samplerPatch[sP]) return samplerPatch[sP];
+	else return 0;
+}
 </script>
 </body>
 </html>
