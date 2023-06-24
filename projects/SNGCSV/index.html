@@ -331,7 +331,7 @@ function go(){
 			file.channels[i].regions[j].notes.sort(compare);
 			for (let currLoop = 0; currLoop < file.channels[i].regions[j].loopcount; currLoop++) {
 				for(let k = 0; k < file.channels[i].regions[j].notes.length; k++){
-					if(file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length+file.channels[i].regions[j].length*currLoop <= file.channels[i].regions[j].length*file.channels[i].regions[j].loopcount){
+					if(file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].length*currLoop <= file.channels[i].regions[j].length*file.channels[i].regions[j].loopcount){
 						events.push(`${i+1}, ${Math.round(Math.pow(10, roundness)*file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].length*currLoop)/Math.pow(10, roundness)}, Note_on_c, ${i}, ${file.channels[i].regions[j].notes[k].note+12}, ${file.channels[i].regions[j].notes[k].velocity*127}\n`);
 						events.push(`${i+1}, ${Math.round(Math.pow(10, roundness)*file.channels[i].regions[j].position+file.channels[i].regions[j].notes[k].position+file.channels[i].regions[j].notes[k].length+file.channels[i].regions[j].length*currLoop)/Math.pow(10, roundness)}, Note_off_c, ${i}, ${file.channels[i].regions[j].notes[k].note+12}, 0\n`);
 					}

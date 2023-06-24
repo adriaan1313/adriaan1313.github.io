@@ -1,0 +1,3 @@
+[submodule "SNGCSV"]
+	path = projects/SNGCSV
+	url = https://github.com/adriaan1313/SNGCSV.git
