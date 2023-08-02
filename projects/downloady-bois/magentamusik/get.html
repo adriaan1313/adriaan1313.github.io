@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" charset="utf-8"></script>
+    <title>MagentaMusikGetter</title>
+	<style>img{display: inline-block;}</style>
+  </head>
+  <body>
+	Link: <input type=text id=pub placeholder="https://www.magentamusik.de/wacken/woa-harder-faster-stage-2023-livestream" value="https://www.magentamusik.de/wacken/woa-harder-faster-stage-2023-livestream"><button onclick="getThem();">Get Stream</button><br>
+	<div id=o></div>
+    <script>
+	let o = document.getElementById("o");
+	function getThem(){
+		let pub=document.getElementById("pub").value;
+		$.getJSON('https://api.allorigins.win/get?url=' + encodeURIComponent(pub), d=>{
+			d=d.contents;
+			const seriesN = d.split("seriesdetails%2F")[1].split("%2F")[0];
+			console.log(seriesN);
+			const assetId = d.split("\"assetId\":\"")[1].split('"')[0];
+			console.log(assetId);
+			$.getJSON("https://api.allorigins.win/get?url=" + encodeURIComponent("https://wcps.t-online.de/cvss/magentamusic/vodclient/v2/assetdetails/"+seriesN+'/'+assetId), da=>{
+				da=JSON.parse(da.contents);
+				$.getJSON("https://api.allorigins.win/get?url=" + encodeURIComponent(da.content.partnerInformation[0].features[0].player.href), dat=>{
+					dat=JSON.parse(dat.contents);
+					$.getJSON("https://api.allorigins.win/get?url=" + encodeURIComponent(dat.content.feature.representations[0].contentPackages[0].media.href), data=>{
+						data=data.contents;
+						const url = atob(data.split("base64,")[1]).split("src=\"")[1].split('"')[0];
+						addStr(url, "stream");
+					});
+				});
+			});
+		});
+	}
+	function addStr(url, t){
+		let tmp=document.createElement("p");
+		tmp.innerHTML=url;
+		let tmpp=document.createElement("p");
+		tmpp.innerHTML=t+":";
+		o.appendChild(tmpp);
+		o.appendChild(tmp);
+		console.log(url)
+	}
+    </script>
+  </body>
+</html>
+
