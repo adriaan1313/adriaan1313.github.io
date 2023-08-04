@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en-GB">
+	<head>
+		<title>W:O:A 2023 Harder + Faster Stage</title>
+		<style>
+			body {
+				margin: 0px;
+				padding: 0px;
+			}
+			.jw-logo {
+				filter: opacity(0.5);
+				width: 60pt!important;
+				height: 60pt!important;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="https://ssl.p.jwpcdn.com/player/v/8.27.1/jwplayer.js" ></script>
+		<script type="text/javascript" id="jwKey">jwplayer.key = "x5VJVyr70la0Joby2AIBgBCa9CqNJcD+X1Ad2IOAgvkD9nmOlD0ojw==";</script>
+		<div id="player"></div>
+		<script type="text/javascript" id="jwSetup">
+			const plr=jwplayer("player").setup({
+				flashplayer: "/",
+				width: "100vw",
+				height: "100vh",
+				aspectratio: "16:9",
+				playlist: "tmp_wacken/playlist.json",
+				playbackRateControls: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2],
+				rtmp: {
+					bufferlength:5
+				},
+				sharing: {
+					heading:"Share",
+					sites: ["facebook", "twitter", "interest", "email", "tumblr", "linkedin", "reddit", "pinterest"]
+				},
+				cast: {},
+				logo: {
+					file: "tmp_wacken/logo.png",
+					hide: true,
+					position: "top-left"
+				}
+			});
+		</script>
+	</body>
+
+</html>
