@@ -17,7 +17,10 @@
 			d=d.contents;
 			const seriesN = d.split("seriesdetails%2F")[1].split("%2F")[0];
 			console.log(seriesN);
-			const assetId = d.split("\"assetId\":\"")[1].split('"')[0];
+			const assetIds = d.split("\"assetId\":\"");
+			assetIds.shift();
+			assetIds.forEach((thing)=>{
+			const assetId=thing.split('"')[0];
 			console.log(assetId);
 			$.getJSON("https://api.allorigins.win/get?url=" + encodeURIComponent("https://wcps.t-online.de/cvss/magentamusic/vodclient/v2/assetdetails/"+seriesN+'/'+assetId), da=>{
 				da=JSON.parse(da.contents);
@@ -29,7 +32,8 @@
 						addStr(url, "stream");
 					});
 				});
-			});
+			});}
+			);
 		});
 	}
 	function addStr(url, t){
